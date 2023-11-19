@@ -82,10 +82,14 @@
 }
 
 input{
-    background-color: #d0ffff;
+    background-color: #e8ffff;
     border-radius: 25px;
     padding: 5px 14px;
     transition: 0.7s;
+}
+
+input[type="email"], input[type="password"]{
+    width: 360px;
 }
 
 input:hover {
@@ -164,6 +168,15 @@ input:hover {
     margin-left: 25%;
     margin-right: 50px;
     margin-top: 1px;
+}
+
+.compte{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: -280px;
 }
 
 .presentation{

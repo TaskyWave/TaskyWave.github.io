@@ -18,7 +18,11 @@ var SUPABASE_KEY =
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 window.userToken = null
 var registerForm = null
-var nomEtGrp = null
+var leGroupe = null
+var leNom = null
+var leMail = null
+var leIdUser= null
+var LadateInscription = null
 var titrePage = null
 
 // lien entre les bouttons, inputs et les fonctions.
@@ -26,7 +30,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   // Recuperation des éléments HTML
   registerForm = document.getElementById("register");
-  nomEtGrp = document.getElementById("nomGrp");
+  leGroupe = document.getElementById("groupe");
+  leNom = document.getElementById("nom");
+  leMail = document.getElementById("lemail");
+  leIdUser = document.getElementById("idUser");
+  LadateInscription = document.getElementById("dateInscription");
   titrePage = document.getElementById("titrePage");
 
   var regForm = document.querySelector('#register')
@@ -91,6 +99,18 @@ async function checkAccount(){
     return item.Groupe;
   });
 
+  var mail = Compte.map(function(item) {
+    return item.Email;
+  });
+
+  var idUser = Compte.map(function(item) {
+    return item.ID;
+  });
+
+  var dateInscUser = Compte.map(function(item) {
+    return item.DateInscription;
+  });
+
   // Si pas d'erreur
   if(error == null){
     console.log("OK !")
@@ -105,7 +125,11 @@ async function checkAccount(){
   else{
     // on affiche les infos du compte
     registerForm.style.display = "none";
-    nomEtGrp.innerText = "Bienvenue, " + nom + " !\n (" + groupe +")";
+    leNom.textContent  = "Nom : " + nom;
+    leGroupe.textContent  = "Groupe : " + groupe;
+    leMail.textContent  = "Email : " + mail;
+    leIdUser.textContent  = "ID unique : " + idUser;
+    LadateInscription.textContent = "Date d'inscription : " + dateInscUser;
   }
 }
 

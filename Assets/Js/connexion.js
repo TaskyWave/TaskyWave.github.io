@@ -17,6 +17,7 @@ var SUPABASE_KEY =
 
 // Initialisation de la connection à la BDD
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+var logInForm = null
 window.userToken = null
 
 // Si l'utilisateur est déjà connecter
@@ -31,8 +32,14 @@ document.addEventListener('DOMContentLoaded', function (event) {
   var signUpForm = document.querySelector('#sign-up')
   signUpForm.onsubmit = signUpSubmitted.bind(signUpForm)
 
+  var resetPSWRD = document.querySelector('#resetPSWRD')
+  resetPSWRD.addEventListener('click', function(event) {
+    event.preventDefault();
+    resetPassWord();
+  });
+
   // Si bouton Connection click :
-  var logInForm = document.querySelector('#log-in')
+  logInForm = document.querySelector('#log-in')
   logInForm.onsubmit = logInSubmitted.bind(logInForm)
 
   // Recuperation des éléments pour le popup
@@ -59,6 +66,25 @@ document.addEventListener('DOMContentLoaded', function (event) {
 // fonction pour ouvrir un popup
 function boutonOuvrirPopup(){
   popup.style.display = "block";
+}
+
+async function resetPassWord(){
+  var ValeurEmail = logInForm.querySelector('input[name="email"]').value;
+  supabase.auth.api.resetPasswordForEmail(ValeurEmail)
+    .then(response => {
+      console.log(response);
+      // Handle the response
+      if(response.error){
+        messagePopup.innerText  = "Entrez un email valide dans la section 'Connexion' !"
+        titrePopup.innerText = 'Erreur !'
+        boutonOuvrirPopup()
+      }
+      else{
+        messagePopup.innerText  = "Si l'Email est valide, veuillez suivres les instructions sur le mail. Sinon, Entrez un email valide dans la section 'Connexion'."
+        titrePopup.innerText = "Mail envoyer !"
+        boutonOuvrirPopup()
+      }
+    })
 }
 
 // Fonction de création d'un utilisateur

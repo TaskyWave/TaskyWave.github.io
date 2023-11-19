@@ -38,21 +38,21 @@
         <!-- Titre page + présentation -->
         <div class="grid-container">
             <div class="connexion">
-                <form id="log-in">
+                <form id="log-in" autocomplete="on">
                     <h2 style="font-size: 60px;" >Connexion</h2>
-                    <h3 style="font-size: 40px;" >Email : <br> <input type="email" name="email" /> </h3>
-                    <h3 style="font-size: 40px;" >Mot de passe : <br> <input  type='password' name='password' /> </h3>
+                    <h3 style="font-size: 40px;" >Email : <br> <input type="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required/> </h3>
+                    <h3 style="font-size: 40px;" >Mot de passe : <br> <input  type='password' name='password' pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required/> </h3>
                     <br>
                     <h4><input type="submit" class="button" value="connexion"></h4>
                     <br><br>
-                    <p>Vous avez oublié votre mot de passe ? <br><a href="">Cliquez ici pour le réinitialiser.</a></p>
+                    <p>Vous avez oublié votre mot de passe ? <br><a id="resetPSWRD" href="">Cliquez ici pour le réinitialiser.</a></p>
                 </form>
             </div>
             <div class="presentation">
-                <form id="sign-up">
+                <form id="sign-up" autocomplete="on">
                     <h2 style="font-size: 60px;" >Inscription <br> </h2>
-                    <h3 style="font-size: 40px;" >Email : <br> <input type="email" name="email" /> </h3>
-                    <h3 style="font-size: 40px;" >Mot de passe : <br> <input  type='password' name='password' /> </h3>
+                    <h3 style="font-size: 40px;" >Email : <br> <input type="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required/> </h3>
+                    <h3 style="font-size: 40px;" >Mot de passe : <br> <input  type='password' name='password' pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required/> </h3>
                     <br>
                     <h4><input type="submit" class="button" value="continuer"></h4>
                     <br><br>
