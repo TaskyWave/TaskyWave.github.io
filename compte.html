@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>EchoSync - Compte</title>
+        <meta charset="UTF-8">
+        <link rel="icon" type="image/x-icon" href="Assets/Img/icons8-ordre-du-jour-64.png">
+        <link rel="stylesheet" type="text/css" href="Assets/Css/Style.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+        <script src="./Assets/Js/compte.js"></script>
+        <h1><a href="index.html"><img src="Assets/Img/icons8-ordre-du-jour-64.png" alt="" width="90" height="90"></a>EchoSync - Compte</h1>
+        <div class="buttonHeader">
+            <button class="button" onclick="window.location.href='index.html';">Hub</button>
+            <button class="button" id='logout-button'>Logout</button>
+            <button class="button" onclick="window.location.href='';">Param</button>
+        </div>
+    </head>
+    <body>
+        <h3 id="nomGrp"></h3>
+        <h2 id="titrePage">Agenda :</h2>
+        <form id="register" style="display: none;">
+            <h3>Prénom<input  type='text' name='prenom' required/></h3>
+            <h3>Groupe TP<input  type='text' name='groupe' required/></h3>
+            <div class="centre">
+                <input type="submit" class="button">
+            </div>
+        </form>
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <span class="close" id="fermerPopup">&times;</span>
+                <h2 id="titrePopup"></h2>
+                <p id="messagePopup"></p>
+            </div>
+        </div>
+        <br><br>
+    </body>
+    <footer>
+        <p>---</p>
+        <br><br>
+        <a class="FollowsButtons" target="_blank" title="Willows Games Studios - Itch.io" href="https://willows-games-studios.itch.io/"><img src="Assets/Img/itch.png" alt="" width="75", height="75"></a>
+        <a class="FollowsButtons" target="_blank" title="Willows Games Studios - YouTube" href="https://www.youtube.com/@WillowsGamesStudios?sub_confirmation=1"><img src="Assets/Img/youtube.png" alt="" width="75", height="75"></a>
+        <a class="FollowsButtons" target="_blank" title="Willows Games Studios - Steam" href="https://steamcommunity.com/id/WillowsGamesStudios/"><img src="Assets/Img/steam.png" alt="" width="75", height="75"></a>
+        <a class="FollowsButtons" target="_blank" title="Willows Games Studios - GitHub" href="https://github.com/WillowsGamesStudios"><img src="Assets/Img/github.png" alt="" width="75", height="75"></a>
+        <a class="FollowsButtons" target="_blank" title="Willows Games Studios - Discord" href="https://discord.gg/HNRXywaKUh"><img src="Assets/Img/discord.png" alt="" width="75", height="75"></a>
+        <a class="FollowsButtons" target="_blank" title="Willows Games Studios - Facebook" href="https://www.facebook.com/profile.php?id=100088417490594"><img src="Assets/Img/facebook.png" alt="" width="75", height="75"></a>
+        <p>© Logo par <a href="https://icons8.com/icon/mItYRMkuHHyM/ordre-du-jour" target="_blank">icones8.fr</a> | Free for personal and commercial use under the CCA 3.0 license : <a href="https://icones8.fr/license" target="_blank">icones8.fr/license</a>
+            <br>
+            <br>© Fait par C.D | HTML, CSS, JS, <a href="https://code.visualstudio.com" target="_blank">Visual Studio Code</a>
+            <br>
+            <br>© Base de données | <a href="https://supabase.com/" target="_blank">Supabase</a>
+            <br>
+            <br>
+            <br>
+        </p>
+    </footer>
+</html>

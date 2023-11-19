@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <!--Meta et liens-->
+    <head>
+        <!-- Titre onglet -->
+        <title>TaskyWave - Hub</title>
+        <!-- Meta SEO -->
+        <meta name="revised" content="19/11/2023"/>
+        <meta name="Category" content="games, software">
+        <meta charset="UTF-8">
+        <meta name="keywords" content="TaskyWave">
+        <meta name="author" content="Wislly (C.D), TaskyWave"/>
+        <meta name="description" content="TaskyWave est un Agenda en ligne indépendant">
+        <meta name="robots" content="index,follow"/>
+        <!-- Logo, script, lien css -->
+        <link rel="icon" type="image/x-icon" href="Assets/Img/icons8-ordre-du-jour-64.png">
+        <link rel="stylesheet" type="text/css" href="Assets/Css/Style.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+        <script src="Assets/Js/connexion.js"></script>
+    </head>
+    <!-- Haut de page -->
+    <header>
+        <!-- haut de page (navigation + titre) -->
+        <nav class="navbar">
+            <!-- logo -->
+            <div class="logo">
+                <a href="index.html"><h3><img src="Assets/Img/icons8-ordre-du-jour-64.png" alt="" width="80", height="80">TaskyWave - Hub</h3></a>
+            </div>
+            <!-- menu -->
+            <ul class="nav-links">
+              <div class="menu">
+                <li><p><a href="index.html">Menu</a></p></li>
+                <li><p><a href="apropos.html">Credits</a></p></li>
+                <li><p><a href="connexion.html">Compte</a></p></li>
+              </div>
+            </ul>
+          </nav>
+        <!-- Titre page + présentation -->
+        <div class="grid-container">
+            <div class="connexion">
+                <form id="log-in">
+                    <h2 style="font-size: 60px;" >Connexion</h2>
+                    <h3 style="font-size: 40px;" >Email : <br> <input type="email" name="email" /> </h3>
+                    <h3 style="font-size: 40px;" >Mot de passe : <br> <input  type='password' name='password' /> </h3>
+                    <br>
+                    <h4><input type="submit" class="button" value="connexion"></h4>
+                    <br><br>
+                    <p>Vous avez oublié votre mot de passe ? <br><a href="">Cliquez ici pour le réinitialiser.</a></p>
+                </form>
+            </div>
+            <div class="presentation">
+                <form id="sign-up">
+                    <h2 style="font-size: 60px;" >Inscription <br> </h2>
+                    <h3 style="font-size: 40px;" >Email : <br> <input type="email" name="email" /> </h3>
+                    <h3 style="font-size: 40px;" >Mot de passe : <br> <input  type='password' name='password' /> </h3>
+                    <br>
+                    <h4><input type="submit" class="button" value="continuer"></h4>
+                    <br><br>
+                    <p>Une fois validée, une confirmation de l'email <br> s'imposera avant de pouvoire vous connecter.</p>
+                </form>
+            </div>
+        </div>
+    </header>
+    <body>
+        <section class="description">
+            <h2>Pourquoi choisir TaskyWave ?</h2> <br><br><br>
+            <ul>
+                <li>
+                    <h3>Gérez vos tâches et événements avec fluidité.</h3><br><br>
+                </li>
+                <li>
+                    <h3>Synchronisation en temps réel sur toutes les plateformes.</h3><br><br>
+                </li>
+                <li>
+                    <h3>Une "Sécurité" pour protéger vos données <br> (soit disant ...).</h3><br><br>
+                </li>
+            </ul>
+            <br>
+            <br>
+            <br>
+            <br>
+        </section>
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <span class="close" id="fermerPopup">&times;</span>
+                <h2 id="titrePopup"></h2>
+                <p id="messagePopup"></p>
+            </div>
+        </div>
+    </body>
+    <!-- pied de page -->
+    <footer>
+        <!-- présentation réseaux et communication -->
+        <!-- liens réseaux -->
+        <div class="reseaux">
+            <!--<a target="_blank" title="Willow Games Studio - X (Tweeter)" href="https://twitter.com/WillowGamesSt"><img style="border-radius: 15px;" src="Assets/Img/Social/twitter-x-logo.jpg" alt="" width="75", height="75"></a>-->
+            <!--<a target="_blank" title="Willow Games Studio - YouTube" href="https://www.youtube.com/@WillowGamesStudio?sub_confirmation=1"><img src="Assets/Img/Social/youtube.png" alt="" width="75", height="75"></a>-->
+            <!--<a target="_blank" title="Willow Games Studio - Steam" href="https://steamcommunity.com/id/WillowGamesStudio/"><img src="Assets/Img/Social/steam.png" alt="" width="75", height="75"></a>-->
+            <a target="_blank" title="Willow Games Studio - GitHub" href="https://github.com/WillowGamesStudio"><img src="Assets/Img/Social/github.png" alt="" width="75", height="75"></a>
+            <!--<a target="_blank" title="Willow Games Studio - Discord" href="https://discord.gg/HNRXywaKUh"><img src="Assets/Img/Social/discord.png" alt="" width="75", height="75"></a>-->
+            <a target="_blank" title="Willow Games Studio - Instagram" href="https://www.instagram.com/willowgamesstudio/"><img src="Assets/Img/Social/instagram.png" alt="" width="75", height="75"></a>
+            <!-- crédit de bas de page -->
+        </div>
+        <p>© Logo par <a href="https://icons8.com/icon/mItYRMkuHHyM/ordre-du-jour" target="_blank">icones8.fr</a> | Free for personal and commercial use under the CCA 3.0 license : <a href="https://icones8.fr/license" target="_blank">icones8.fr/license</a>
+            <br>
+            <br>© Fait par C.D | HTML, CSS, JS, <a href="https://code.visualstudio.com" target="_blank">Visual Studio Code</a>
+            <br>
+            <br>© Base de données | <a href="https://supabase.com/" target="_blank">Supabase</a>
+            <br>
+            <br>
+            <br>
+        </p>
+    </footer>
+</html>
