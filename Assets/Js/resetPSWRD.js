@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
   // fermeture du popup
   boutonFermerPopup.addEventListener("click", function() {
     popup.style.display = "none";
-    location.reload();
   });
 
   // fermeture du popup

@@ -70,7 +70,7 @@ function boutonOuvrirPopup(){
 
 async function resetPassWord(){
   var ValeurEmail = logInForm.querySelector('input[name="email"]').value;
-  supabase.auth.api.resetPasswordForEmail(ValeurEmail)
+  supabase.auth.api.resetPasswordForEmail(ValeurEmail, { redirectTo: "https://taskywave.github.io/resetPSWRD.html"} )
     .then(response => {
       console.log(response);
       // Handle the response
