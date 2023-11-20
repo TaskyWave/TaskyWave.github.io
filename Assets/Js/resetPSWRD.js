@@ -6,6 +6,11 @@ var SUPABASE_KEY =
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 window.userToken = null
 
+var url = window.location.href;
+const code = url.searchParams.get('code')
+supabase.auth.api.exchangeCodeForSession(code)
+const next = url.searchParams.get('next')
+
 document.addEventListener('DOMContentLoaded', function (event) {
     // Si bouton Inscription click :
     var resetPSWRDform = document.querySelector('#ChangePSWRD')
