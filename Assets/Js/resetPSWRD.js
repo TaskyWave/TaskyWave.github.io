@@ -49,10 +49,6 @@ const reset = (event) => {
           titrePopup.innerText = 'Erreur !'
           boutonOuvrirPopup()
         }
-        // sinon, continue l'inscription
-        else{
-          setToken(response)
-        }
       }).catch((err) => {
         // afiche si autre erreur
         messagePopup.innerText  = err
