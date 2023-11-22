@@ -1,16 +1,16 @@
+const requestUrl = new URL(window.location.href);
+const token_hash = requestUrl.searchParams.get('token_hash')
+const type = requestUrl.searchParams.get('type')
+const email = 'clem.dionne@gmail.com';
+console.log(token_hash);
+console.log(window.location.href);
+
 var SUPABASE_URL = 'https://yeetqwekspzypbgnjhvs.supabase.co'
 var SUPABASE_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllZXRxd2Vrc3B6eXBiZ25qaHZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTYxMDA3NTcsImV4cCI6MjAxMTY3Njc1N30.9zzpjAwBdsoHJWQsfrHeenKASCLbtkjgpUjHJ4ggNGs'
 
 // initialisation de la connection de la BDD
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-window.userToken = null
-
-const requestUrl = new URL(window.location.href);
-const token_hash = requestUrl.searchParams.get('token_hash')
-const type = requestUrl.searchParams.get('type')
-const email = 'clem.dionne@gmail.com';
-console.log(token_hash);
 
 /*var url = new URLSearchParams(window.location.search);
 const code = url.get('code')
