@@ -6,10 +6,16 @@ var SUPABASE_KEY =
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 window.userToken = null
 
-var url = window.location.href;
-const code = url.searchParams.get('code')
-supabase.auth.api.exchangeCodeForSession(code)
-const next = url.searchParams.get('next')
+const requestUrl = new URL(window.location.href);
+const token_hash = requestUrl.searchParams.get('token_hash')
+const type = requestUrl.searchParams.get('type')
+const email = 'clem.dionne@gmail.com';
+console.log(token_hash);
+
+/*var url = new URLSearchParams(window.location.search);
+const code = url.get('code')
+supabase.auth.exchangeCodeForSession(code);
+const next = url.get('next')*/
 
 document.addEventListener('DOMContentLoaded', function (event) {
     // Si bouton Inscription click :
@@ -43,9 +49,8 @@ function boutonOuvrirPopup(){
 const reset = (event) => {
 
     // Recuperation des inputs
-    event.preventDefault()
+    event.preventDefault();
     const Newpswrd = event.target[0].value
-  
     supabase.auth.api.updateUser({ password: Newpswrd }).then((response) => {
         // si erreur :
         if(response.error){
