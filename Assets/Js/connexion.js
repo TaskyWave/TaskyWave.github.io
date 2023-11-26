@@ -11,6 +11,9 @@
  */
 
 // URL et APIKEY de la BDD
+
+import { } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js'
+
 var SUPABASE_URL = 'https://yeetqwekspzypbgnjhvs.supabase.co'
 var SUPABASE_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllZXRxd2Vrc3B6eXBiZ25qaHZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTYxMDA3NTcsImV4cCI6MjAxMTY3Njc1N30.9zzpjAwBdsoHJWQsfrHeenKASCLbtkjgpUjHJ4ggNGs'
@@ -70,7 +73,7 @@ function boutonOuvrirPopup(){
 
 async function resetPassWord(){
   var ValeurEmail = logInForm.querySelector('input[name="email"]').value;
-  supabase.auth.api.resetPasswordForEmail(ValeurEmail, { redirectTo: "https://taskywave.github.io/resetPSWRD.html"} )
+  supabase.auth.api.resetPasswordForEmail(ValeurEmail, { redirectTo: "resetPSWRD.html"} )
     .then(response => {
       console.log(response);
       // Handle the response

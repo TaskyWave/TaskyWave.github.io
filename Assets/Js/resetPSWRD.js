@@ -50,8 +50,11 @@ const reset = (event) => {
 
     // Recuperation des inputs
     event.preventDefault();
-    const Newpswrd = event.target[0].value
-    supabase.auth.api.updateUser({ password: Newpswrd }).then((response) => {
+    const Newemail = event.target[0].value
+    const Newpswrd = event.target[1].value
+    console.log(Newemail);
+    console.log(Newpswrd);
+    supabase.auth.api.updateUser({email: Newemail, password: Newpswrd }).then((response) => {
         // si erreur :
         if(response.error){
           // affiche l'erreur dans le popup
