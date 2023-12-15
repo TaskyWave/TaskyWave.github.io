@@ -3,7 +3,7 @@
     <!--Meta et liens-->
     <head>
         <!-- Titre onglet -->
-        <title>TaskyWave - Hub</title>
+        <title>TaskyWave - Compte</title>
         <!-- Meta SEO -->
         <meta name="revised" content="19/11/2023"/>
         <meta name="Category" content="games, software">
@@ -22,41 +22,86 @@
         <nav class="navbar">
             <!-- logo -->
             <div class="logo">
-                <a href="index.html"><h3><img src="Assets/Img/icons8-ordre-du-jour-64.png" alt="" width="80", height="80">TaskyWave - Hub</h3></a>
+                <a href="index.html"><h3><img src="Assets/Img/icons8-ordre-du-jour-64.png" alt="" width="80", height="80">TaskyWave - Compte</h3></a>
             </div>
             <!-- menu -->
             <ul class="nav-links">
-              <div class="menu">
+                <div class="menu">
                 <li><p><a href="index.html">Menu</a></p></li>
-                <li><p><a href="apropos.html">Credits</a></p></li>
-                <li><p><a href="parametre.html">Parametres</a></p></li>
-                <li><p><a id='logout-button' href="parametre.html">Déconnexion</a></p></li>
-              </div>
+                <li><p><a href="credit.html">Crédits</a></p></li>
+                <li id="btn-account" style="display: none;"><p><a href="compte.html">Compte</a></p></li>
+                <li id="btn-logout" style="display: none; cursor: pointer;"><p><a>Déconnexion</a></p></li>
+                </div>
             </ul>
         </nav>
+        <div class="grid-container">
+            <div class="edt">
+                <h2 id="edt_titre_main">Chargement ...</h2><br><br>
+                <div id="listeEvenements"></div>
+                <br><br>
+            </div>
+            <div class="info">
+                <div class="taskList" id="taskListPrivate">
+                    <h2>Agenda</h2><br><br>
+                </div>
+            </div>
+        </div>
     </header>
     <body>
-        <section class="compte">
-            <h3 style="font-size: 60px;" id="nomGrp"></h3>
-            <h2 style="font-size: 60px;" id="titrePage"></h2>
-            <form id="register" style="display: none;">
-                <h3>Prénom<input  type='text' name='prenom' required/></h3>
-                <h3>Groupe MAJUSCULE chiffre (ex : A1)<input  type='text' name='groupe' pattern="^[A-Z][1-4]$" required/></h3>
-                <div class="centre">
-                    <input type="submit" class="button">
-                </div>
-            </form>
-        </section>
-        <br><br><br><br>
         <section class="description">
-            <h2>Tâches :</h2><br><br>
-            <h2>Infos :</h2><br><br>
-            <h2>Evenements :</h2><br><br>
-            <br>
-            <br>
-            <br>
-            <br>
+            <section class="agenda">
+                <h2>Ajouter des taches</h2><br><br>
+                <section class="agenda-addevent-private">
+                    <h2>Ajouter une tâche privé</h2>
+                    <form class="a" method="post">
+                        <label for="titre"><h4>Titre :</h4></label>
+                        <input type="text" id="titre" name="titre" required><br>
+                
+                        <label for="description"><h4>Description :</h4></label>
+                        <textarea id="description" name="description" rows="4" required></textarea><br>
+                
+                        <label for="dateLimite"><h4>Date limite :</h4></label>
+                        <input type="date" id="dateLimite" name="dateLimite" required><br>
+
+                        <label for="horaireLimite"><h4>Horaire limite :</h4></label>
+                        <input type="time" id="horaireLimite" name="horaireLimite" required><br><br>
+                
+                        <button id="agenda-new-task-btn" class="button">Soumettre</button>
+                    </form>
+                </section>
+                <section style="display: none;" id="section-agenda-addevent-public" class="agenda-addevent-public">
+                    <h2>Ajouter une tâche public (admin only)</h2>
+                    <form class="b" method="post">
+                        <label for="titre"><h4>Titre :</h4></label>
+                        <input type="text" id="titre-public" name="titre" required><br>
+                
+                        <label for="description"><h4>Description :</h4></label>
+                        <textarea id="description-public" name="description" rows="4" required></textarea><br>
+                
+                        <label for="dateLimite"><h4>Date limite :</h4></label>
+                        <input type="date" id="dateLimite-public" name="dateLimite" required><br>
+
+                        <label for="horaireLimite"><h4>Horaire limite :</h4></label>
+                        <input type="time" id="horaireLimite-public" name="horaireLimite" required><br>
+                        
+                        <label for="groupe"><h4>Sélectionnez un groupe :</h4></label>
+                        <select id="groupeVisee-public" name="groupe" required>
+                            <option value="D">D</option>
+                            <option value="D1">D1</option>
+                            <option value="D2">D2</option>
+                            <!-- Ajoutez autant d'options que nécessaire -->
+                        </select><br><br>
+                
+                        <button id="agenda-new-task-btn-public" class="button">Soumettre</button>
+                    </form>
+                </section>
+                <h1> a faire : strings and can't contain ".", "#", "$", "[", or "]"</h1>
+            </section>
         </section>
+        <br>
+        <br>
+        <br>
+        <br>
         <div class="popup" id="popup">
             <div class="popup-content">
                 <span class="close" id="fermerPopup">&times;</span>
@@ -64,7 +109,29 @@
                 <p id="messagePopup"></p>
             </div>
         </div>
-        <br><br>
+        <div class="popup" id="popup-insc">
+            <div class="popup-content">
+                <h2>Groupe inconnu !</h2>
+                <p>Entrez votre groupe pour continuer :</p>
+                <form method="post">
+                    <label for="groupe"><h4>Sélectionnez un groupe :</h4></label>
+                    <select id="groupeChoisi" name="groupe" required>
+                        <option value="D1">D1</option>
+                        <option value="D2">D2</option>
+                        <!-- Ajoutez autant d'options que nécessaire -->
+                    </select><br><br>
+                    <button id="setupGroup-btn" class="button">Soumettre</button>
+                </form>
+            </div>
+        </div>
+        <br>
+        <br>
+        <script src="https://cdn.auth0.com/js/auth0-spa-js/1.2/auth0-spa-js.production.js"></script>
+        <script type="module" src="Assets/Js/compte/auth.js"></script>
+        <script type="module" src="Assets/Js/compte/compte.js"></script>
+        <script type="module" src="Assets/Js/compte/edt.js"></script>
+        <script type="module" src="Assets/Js/compte/agenda.js"></script>
+        <script type="module" src="Assets/Js/compte/popup.js"></script>
     </body>
     <!-- pied de page -->
     <footer>
