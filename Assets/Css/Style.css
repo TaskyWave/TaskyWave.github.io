@@ -58,6 +58,14 @@
     text-align: center;
 }
 
+.taskList .isDoCheckboxClass{
+    display: block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+
+
 .taskList span{
     background-color: rgb(255, 83, 83);
     padding: 4px;

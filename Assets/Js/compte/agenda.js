@@ -263,9 +263,12 @@ function setupAgenda() {
                 taskElement.appendChild(todoElement);
                 taskElement.appendChild(document.createElement("br"));
 
-                taskElement.appendChild(document.createTextNode("Fait : "));
+                //taskElement.appendChild(document.createTextNode("Fait : "));
                 taskElement.appendChild(isDoCheckbox);
                 taskElement.appendChild(document.createElement("br"));
+                taskElement.appendChild(document.createElement("br"));
+                taskElement.appendChild(document.createElement("br"));
+                isDoCheckbox.classList.add('isDoCheckboxClass');
 
                 if(task.isDo.value == false){
                     if(task.dateLimite.value > nowTimestamp){
@@ -329,9 +332,12 @@ function setupAgenda() {
                 taskElement.appendChild(todoElement);
                 taskElement.appendChild(document.createElement("br"));
 
-                taskElement.appendChild(document.createTextNode("Fait : "));
+                //taskElement.appendChild(document.createTextNode("Fait : "));
                 taskElement.appendChild(isDoCheckbox);
                 taskElement.appendChild(document.createElement("br"));
+                taskElement.appendChild(document.createElement("br"));
+                taskElement.appendChild(document.createElement("br"));
+                isDoCheckbox.classList.add('isDoCheckboxClass');
 
                 if(task.isDo.value == false){
                     if(task.dateLimite.value > nowTimestamp){
@@ -396,9 +402,12 @@ function setupAgenda() {
                     taskElement.appendChild(todoElement);
                     taskElement.appendChild(document.createElement("br"));
     
-                    taskElement.appendChild(document.createTextNode("Fait : "));
+                    //taskElement.appendChild(document.createTextNode("Fait : "));
                     taskElement.appendChild(isDoCheckbox);
                     taskElement.appendChild(document.createElement("br"));
+                    taskElement.appendChild(document.createElement("br"));
+                    taskElement.appendChild(document.createElement("br"));
+                    isDoCheckbox.classList.add('isDoCheckboxClass');
 
                     
                     if(task.isDo.value == false){
