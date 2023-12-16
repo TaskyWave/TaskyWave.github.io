@@ -22,22 +22,30 @@
         <nav class="navbar">
             <!-- logo -->
             <div class="logo">
-                <a href="index.html"><h3><img src="Assets/Img/icons8-ordre-du-jour-64.png" alt="" width="80", height="80">TaskyWave - Compte</h3></a>
+                <a href="index.html"><h3><img src="Assets/Img/icons8-ordre-du-jour-64.png" alt="" width="80" height="80">TaskyWave - Compte</h3></a>
             </div>
             <!-- menu -->
             <ul class="nav-links">
                 <div class="menu">
-                <li><p><a href="index.html">Menu</a></p></li>
-                <li><p><a href="credit.html">Crédits</a></p></li>
-                <li id="btn-account" style="display: none;"><p><a href="compte.html">Compte</a></p></li>
-                <li id="btn-logout" style="display: none; cursor: pointer;"><p><a>Déconnexion</a></p></li>
+                <li><p><a href="index.html"><img src="Assets/Img/Assets/Boutons/home.png" alt="" width="30" height="30">Menu</a></p></li>
+                <li><p><a href="credit.html"><img src="Assets/Img/Assets/Boutons/credit.png" alt="" width="30" height="30">Crédits</a></p></li>
+                <li id="btn-account" style="display: none;"><p><a href="compte.html"><img src="Assets/Img/Assets/Boutons/account.png" alt="" width="30" height="30">Compte</a></p></li>
+                <li id="btn-logout" style="display: none; cursor: pointer;"><p><a><img src="Assets/Img/Assets/Boutons/logout.png" alt="" width="30" height="30">Déconnexion</a></p></li>
                 </div>
             </ul>
         </nav>
         <div class="grid-container">
             <div class="edt">
                 <h2 id="edt_titre_main">Chargement ...</h2><br><br>
-                <div id="listeEvenements"></div>
+                <div id="listeEvenements">
+                    <div class="dateEDTInput">
+                        <label for="datePicker">Choisir une date :</label>
+                        <input type="date" id="datePicker">
+                    </div>
+                    <br><br>
+                </div>
+                <br><br>
+                <button class="buttonShowAllEDT">Voir Tout L'EDT</button>
                 <br><br>
             </div>
             <div class="info">

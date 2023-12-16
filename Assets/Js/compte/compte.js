@@ -62,8 +62,6 @@ export function deleteData(branchPath) {
     });
 }
 
-//writeData('TEST/valueTest', 'testOK!');
-
 export async function readData(path) {
   const dbRef = ref(database);
 
@@ -84,7 +82,7 @@ export async function readData(path) {
 }
 
 export async function getAgenda(userID) {
-  const dbRef = ref(database);
+  const dbRef = ref(getDatabase(app));
 
   try {
     const snapshot = await get(child(dbRef, "user/" + userID + "/agenda"));
@@ -120,8 +118,6 @@ export async function getAgendaPublic() {
     throw error; // Vous pouvez choisir de gérer l'erreur ici ou de la propager
   }
 }
-
-//console.log(readData('TEST/valueTest'));
 
 export async function initDataBase(){
   var user_id = userProfile.sub;

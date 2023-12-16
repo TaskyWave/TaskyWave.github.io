@@ -8,15 +8,14 @@ export let user = null;
 export let userProfile = null;
 
 window.onload = async () => {
-  await configureClient()
-  await processLoginState()
-  updateUI()
-  userProfile = await auth0.getUser();
-  await initDataBase();
-  console.log(databaseIsReady);
-  loadAgenda();
-  loadAgendaPublic();
-  setupEDT();
+    await configureClient()
+    await processLoginState()
+    updateUI()
+    userProfile = await auth0.getUser();
+    await initDataBase();
+    console.log(databaseIsReady);
+    await loadAgendaPublic();
+    setupEDT();
 }
 
 const configureClient = async () => {

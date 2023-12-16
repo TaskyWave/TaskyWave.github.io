@@ -7,6 +7,11 @@ var role = null;
 let groupe = null;
 var nowTimestamp = Math.floor(Date.now() / 1000);
 
+// Exemple d'utilisation avec un temps Unix (par exemple, le temps actuel)
+const tempsUnixActuel = Math.floor(Date.now() / 1000);
+const resultatFormate = convertirTempsUnixEnString(tempsUnixActuel);
+console.log(resultatFormate);
+
 export async function loadAgenda(){
     var user_id = userProfile.sub;
 
@@ -102,6 +107,7 @@ export async function loadAgendaPublic(){
                     }
                 })();
             }
+            loadAgenda();
         })
     }
     else{
@@ -194,7 +200,6 @@ export function deletePublicTask(titre){
 }
 
 function setupAgenda() {
-    console.log(agendaData);
 
     var tasks = JSON.parse(agendaData);
 
@@ -460,11 +465,6 @@ function convertirTempsUnixEnString(tempsUnix) {
   
     return resultat;
   }
-  
-  // Exemple d'utilisation avec un temps Unix (par exemple, le temps actuel)
-  const tempsUnixActuel = Math.floor(Date.now() / 1000);
-  const resultatFormate = convertirTempsUnixEnString(tempsUnixActuel);
-  console.log(resultatFormate);
 
 document.addEventListener('DOMContentLoaded', () => {
     const agenda_new_task_btn = document.getElementById('agenda-new-task-btn');

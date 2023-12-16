@@ -1,16 +1,15 @@
+// importation des founction et variables des autres scripts
 import { auth0, userProfile, user } from './auth.js';
 import { writeData, readData, deleteData } from './compte.js';
 
+// mise en place des liens des EDTs des différants groupes
 const LienEdt_INFO_1_D2 = "https://planningsup.app/api/v1/calendars?p=iutdevannes.butdutinfo.1ereannee.gr1d.gr1d2";
 const LienEdt_INFO_1_D1 = "https://planningsup.app/api/v1/calendars?p=iutdevannes.butdutinfo.1ereannee.gr1d.gr1d1";
-var jsonLinks = [LienEdt_INFO_1_D2];
 
 // Obtenir la date actuelle
 var currentDate = new Date();
-
 // Réinitialiser l'heure à 00:00:00
 currentDate.setHours(0, 0, 0, 0);
-
 // Obtenir la date de demain
 var tomorrowDate = new Date(currentDate);
 tomorrowDate.setDate(currentDate.getDate() + 1);
@@ -19,8 +18,12 @@ tomorrowDate.setDate(currentDate.getDate() + 1);
 var dateDebut = currentDate.getTime();
 var dateFin = tomorrowDate.getTime();
 
+// definition des variables
 var jsonUrl = null;
 var groupe = null;
+
+const listeEvenementsDiv = document.getElementById('listeEvenements');
+const datePicker = document.getElementById('datePicker');
 
 async function loadEDTTime(){
     var user_id = userProfile.sub;
@@ -161,7 +164,12 @@ export async function setupEDT(){
                         ${event.description}<br>
                         ${formatTime(event.start)} - ${formatTime(event.end)}
                     `;
-                    eventElement.style.backgroundColor = event.color || "#77bbff";
+                    
+                    // Exemple d'utilisation
+                    let eventColor = event.color || "#77bbff";
+                    let color = intensifyColor(eventColor, -1);
+                    
+                    eventElement.style.backgroundColor = color;
     
                     listeEvenementsDiv.appendChild(eventElement);
     
@@ -173,13 +181,30 @@ export async function setupEDT(){
                         
                         const timeGap = index < array.length - 1 ? array[index + 1].start - event.end : 0;
     
-                        timeGapElement.style.height = `${timeGap / (1000 * 60) + 10}px`;
+                        timeGapElement.style.height = `${timeGap / (1000 * 60) + 30}px`;
                         // Ajoutez l'élément de temps après l'événement actuel et avant l'événement suivant
                         listeEvenementsDiv.appendChild(timeGapElement);
                     }
                 });
             })
             .catch(error => console.error('Erreur lors du chargement du JSON :', error));
+}
+
+function intensifyColor(hexColor, factor) {
+    // Convertir la couleur hexadécimale en valeurs RVB
+    let r = parseInt(hexColor.substr(1, 2), 16);
+    let g = parseInt(hexColor.substr(3, 2), 16);
+    let b = parseInt(hexColor.substr(5, 2), 16);
+
+    // Augmenter l'intensité de la couleur en ajoutant au lieu de multiplier
+    r = Math.min(r + Math.floor((255 - r) * factor), 255);
+    g = Math.min(g + Math.floor((255 - g) * factor), 255);
+    b = Math.min(b + Math.floor((255 - b) * factor), 255);
+
+    // Convertir les valeurs RVB en couleur hexadécimale
+    let resultColor = `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1).toUpperCase()}`;
+
+    return resultColor;
 }
 
 function formatTime(timestamp) {
@@ -204,3 +229,21 @@ function calculateTimeGap(endTime, nextStartTime) {
         return "";
     }
 }
+
+datePicker.addEventListener('change', async function (){
+    const selectedDate = new Date(datePicker.value);
+
+    currentDate.setDate(selectedDate.getDate());
+    tomorrowDate.setDate(selectedDate.getDate() + 1);
+
+    // Mettez à jour les timestamps
+    dateDebut = currentDate.getTime();
+    dateFin = tomorrowDate.getTime();
+
+    await saveEDTTime();
+
+    // Utilisez les dates mises à jour comme nécessaire
+    console.log("Nouvelle date de début :", dateDebut);
+    console.log("Nouvelle date de fin :", dateFin);
+    window.location.reload();
+});

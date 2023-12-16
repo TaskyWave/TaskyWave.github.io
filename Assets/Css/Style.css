@@ -107,6 +107,35 @@
     border-radius: 20px;
 }
 
+@media screen and (max-width: 1200px){
+    #listeEvenements{
+        margin: 50px;
+    }
+}
+
+.dateEDTInput, .dateEDTInput input{
+    font-family: WorkSans_Classic;
+    text-align: center;
+    font-size: 30px;
+}
+
+.buttonShowAllEDT{
+    font-family: WorkSans_Classic;
+    font-size: 30px;
+    border-radius: 5px;
+    transition: 0.7s;
+    border-style:double;
+    text-align: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.buttonShowAllEDT:hover{
+    border-radius: 20px;
+    transition: 0.7s;
+}
+
+
 #listeEvenements button{
     background-color: #ffffff;
     border-radius: 5px;
@@ -116,13 +145,21 @@
     margin-bottom: 10px;
     margin-left: 20px;
     margin-right: 20px;
+
+    border-style:double;
+    font-family: WorkSans_Classic;
 }
 
-.change-edt-btn{
+.change-edt-btn, .dateEDTInput{
     text-align: center;
     align-items: center;
     display: block;
     position: relative;
+}
+
+.change-edt-btn button{
+    text-align: center;
+    font-size: 30px;
 }
 
 #listeEvenements button:hover{
@@ -131,6 +168,7 @@
     transition: 0.7s;
 
     font-family: WorkSans_Classic;
+    border-style:double;
 }
 
 .event-box {
@@ -219,21 +257,46 @@
     text-align: center;
 }
 
-input, .button, textarea, select{
+input, .button, select{
     background-color: #ffffff;
     border-radius: 5px;
     padding: 5px 14px;
     transition: 0.7s;
+    border: 1 solid black;
+    border-style:double;
+}
+
+a img{
+    vertical-align: middle;
+}
+
+textarea{
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 5px 14px;
+    border: 1 solid black;
+    border-style:double;
+    transition: border-radius 0.7s;
+}
+
+textarea:hover{
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 5px 14px;
+    transition: border-radius 0.7s;
+    border: 1 solid black;
+    border-style:double;
 }
 
 input[type="email"], input[type="password"]{
     width: 360px;
 }
 
-input:hover, .button:hover, textarea:hover select:hover{
+input:hover, .button:hover, textarea:hover, select:hover{
     background-color: #ededed;
     border-radius: 25px;
     transition: 0.7s;
+    border-style:double;
 }
 /*#endregion*/
 
@@ -328,7 +391,7 @@ input:hover, .button:hover, textarea:hover select:hover{
     margin-top: 1px;
 }
 
-@media screen and (max-width: 1100px){
+@media screen and (max-width: 1200px){
     .grid-container {
         display: grid;
         grid-template-columns: 2fr;
