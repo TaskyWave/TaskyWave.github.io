@@ -173,15 +173,15 @@
     }
 
     .taskList strong{
-        font-size: 1px;
+        font-size: 15px;
     }
 
     .toDoDesc{
-        font-size: 1px;
+        font-size: 15px;
     }
 
     .taskList .dateOfTask{
-        font-size: 1px;
+        font-size: 15px;
     }
 }
 
