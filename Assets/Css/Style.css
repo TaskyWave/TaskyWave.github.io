@@ -166,17 +166,17 @@
     margin-bottom: 10px;
 }
 
-@media screen and (max-width: 1000px){
+@media screen and (max-width: 1300px){
     .taskList strong{
-        font-size: 10px;
+        font-size: 15px;
     }
 
     .toDoDesc{
-        font-size: 10px;
+        font-size: 15px;
     }
 
     .taskList .dateOfTask{
-        font-size: 10px;
+        font-size: 15px;
     }
 }
 
