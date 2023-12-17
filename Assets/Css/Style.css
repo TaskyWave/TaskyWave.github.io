@@ -166,7 +166,7 @@
     margin-bottom: 10px;
 }
 
-@media screen and (max-width: 800px){
+@media screen and (max-width: 1000px){
     .taskList strong{
         font-size: 10px;
     }
