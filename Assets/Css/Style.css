@@ -56,15 +56,75 @@
     font-size: 20px;
     color: rgb(61,61,61);
     text-align: center;
+
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.taskList strong{
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.isDoCheckboxContener{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.deleteButton {
+    border-radius: 5px;
+    transition: 0.7s;
+    font-family: WorkSans_Classic;
+    font-size: 15px;
+}
+
+.deleteButton:hover{
+    border-radius: 20px;
+    transition: 0.7s;
+}
+
+.taskList .deleteButtonContener{
+    text-align: left;
+    justify-content: left;
+    align-items: left;
+    display:block;
+}
+
+.deleteButtonContener{
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .taskList .isDoCheckboxClass{
     display: block;
     position: relative;
+
+    cursor: pointer;
     width: 20px;
     height: 20px;
+    background-color: #fff; /* Couleur de fond */
+    border: 2px solid #333; /* Bordure */
+    border-radius: 5px; /* Coins arrondis */
+    transition: 0.7s;
 }
 
+.taskList .isDoCheckboxClass:hover{
+    background-color: #ddd;
+    border-radius: 20px;
+    transition: 0.7s;
+}
+
+.taskIsDo, .taskNotDo, .taskNotDoAndLate{
+    display: grid;
+    grid-template-columns: 250px auto 250px; /* Deux colonnes, la première et la troisième sont de taille automatique, la deuxième prend le reste de l'espace disponible */
+
+    gap: 10px; /* Espace entre les éléments */
+}
 
 .taskList span{
     background-color: rgb(255, 83, 83);
@@ -73,9 +133,16 @@
     height: 2px;
 }
 
+.toDoDesc{
+    grid-column: 2;
+    grid-row: 2;
+}
+
 .taskList .dateOfTask{
     font-weight: 700;
     font-family: Jost_Italic;
+    grid-column: 3;
+    grid-row: 2;
 }
 
 .taskList .taskNotDo{
@@ -98,6 +165,28 @@
     border-radius: 15px;
     margin-bottom: 10px;
 }
+
+@media screen and (max-width: 800px){
+    .taskList strong{
+        font-size: 10px;
+    }
+
+    .toDoDesc{
+        font-size: 10px;
+    }
+
+    .taskList .dateOfTask{
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 1300px){
+    .taskList .isDoCheckboxClass{
+        width: 40px;
+        height: 40px;
+    }
+}
+
 /*#endregion*/
 
 /*#region EDT*/
@@ -105,12 +194,7 @@
     padding: 10px;
     background-color: #f1f1f1;
     border-radius: 20px;
-}
-
-@media screen and (max-width: 1200px){
-    #listeEvenements{
-        margin: 50px;
-    }
+    margin-left: 10px;
 }
 
 .dateEDTInput, .dateEDTInput input{
@@ -127,7 +211,7 @@
     border-style:double;
     text-align: center;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .buttonShowAllEDT:hover{
@@ -210,8 +294,23 @@
     transition: 0.2s;
 }
 
+@media screen and (max-width: 1300px){
+    #listeEvenements{
+        margin: 50px;
+    }
+
+    .buttonShowAllEDT{
+        margin-left: 60px;
+    }
+
+    .time-gap {
+        font-size: 25px;
+    }
+}
+
 /*#endregion*/
 
+/*#region bannières réseau*/
 .reseaux{
     align-items: center;
     display: flex;
@@ -221,6 +320,7 @@
 .reseaux a{
     margin: 30px;
 }
+/*#endregion*/
 
 /*#region PopUp*/
 
@@ -391,7 +491,7 @@ input:hover, .button:hover, textarea:hover, select:hover{
     margin-top: 1px;
 }
 
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 1300px){
     .grid-container {
         display: grid;
         grid-template-columns: 2fr;

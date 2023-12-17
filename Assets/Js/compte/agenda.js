@@ -127,6 +127,14 @@ export async function saveNewTask(){
         alert("Veuillez remplir tous les champs");
         console.error("Veuillez remplir tous les champs");
     }
+    else if (/[\.\#\$\[\]]/.test(titre)){
+        alert("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
+        console.error("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
+    }
+    else if(/[\#\$\[\]]/.test(description) || /[\#\$\[\]]/.test(dateLimite) || /[\#\$\[\]]/.test(horaireLimite)){
+        alert("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
+        console.error("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
+    }
     else{
         var dateLimite = convertToUnixTimestamp(dateLimite, horaireLimite);
         var user_id = userProfile.sub;
@@ -136,7 +144,8 @@ export async function saveNewTask(){
         await writeData("user/" + user_id + "/agenda/" + titre + "/toDo", description);
         await writeData("user/" + user_id + "/agenda/" + titre + "/titre", titre);
         await writeData("user/" + user_id + "/agenda/" + titre + "/dateLimite", dateLimite);
-    
+        await writeData("user/" + user_id + "/agenda/" + titre + "/dateLimite", dateLimite);
+
         window.location.reload();
     }
 }
@@ -166,6 +175,14 @@ export async function saveNewTaskPublic(){
     if (titre === "" || description === "" || dateLimite === "" || horaireLimite === "" || groupeVisee === "") {
         alert("Veuillez remplir tous les champs");
         console.error("Veuillez remplir tous les champs");
+    }
+    else if (/[\.\#\$\[\]]/.test(titre)){
+        alert("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
+        console.error("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
+    }
+    else if(/[\#\$\[\]]/.test(description) || /[\#\$\[\]]/.test(dateLimite) || /[\#\$\[\]]/.test(horaireLimite)){
+        alert("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
+        console.error("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
     }
     else{
         var dateLimite = convertToUnixTimestamp(dateLimite, horaireLimite);
@@ -235,13 +252,29 @@ function setupAgenda() {
             if(task.isPublic.value == "false"){
                 // Ajouter un élément span pour la croix
                 var deleteButton = document.createElement("span");
-                deleteButton.innerHTML = "&#10006;"; // Ajoutez la croix (X)
+                deleteButton.innerHTML = "supprimer"; // Ajoutez la croix (X)
                 deleteButton.style.cursor = "pointer"; // Changez le curseur pour indiquer la possibilité de clic
                 deleteButton.style.marginRight = "5px"; // Ajoutez un espace à droite de la croix
+                deleteButton.classList.add('deleteButton');
+
+                var deleteButtonContener = document.createElement("div");
+                deleteButtonContener.classList.add('deleteButtonContener');
+                deleteButtonContener.appendChild(deleteButton);
 
                 // Ajoutez le bouton de suppression à l'élément de tâche
-                taskElement.appendChild(deleteButton);
-                taskElement.appendChild(document.createElement("br"));
+                taskElement.appendChild(deleteButtonContener);
+
+                var isDoCheckbox = document.createElement("input");
+                isDoCheckbox.type = "checkbox";
+                isDoCheckbox.checked = task.isDo.value;
+                isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
+
+                var isDoCheckboxContener = document.createElement("div");
+                isDoCheckboxContener.classList.add('isDoCheckboxContener');
+                isDoCheckboxContener.appendChild(isDoCheckbox);
+
+                taskElement.appendChild(isDoCheckboxContener);
+                isDoCheckbox.classList.add('isDoCheckboxClass');
 
                 // Ajoutez un événement click pour appeler deleteTask
                 deleteButton.addEventListener("click", function() {
@@ -254,26 +287,14 @@ function setupAgenda() {
                 taskElement.appendChild(titleElement);
         
                 var dateElement = document.createElement("div");
-                dateElement.textContent = "Pour le : " + convertirTempsUnixEnString(task.dateLimite.value);
+                dateElement.textContent = convertirTempsUnixEnString(task.dateLimite.value);
                 taskElement.appendChild(dateElement);
                 dateElement.classList.add('dateOfTask');
-        
-                var isDoCheckbox = document.createElement("input");
-                isDoCheckbox.type = "checkbox";
-                isDoCheckbox.checked = task.isDo.value;
-                isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
                 
                 var todoElement = document.createElement("div");
                 todoElement.textContent = task.toDo.value;
                 taskElement.appendChild(todoElement);
-                taskElement.appendChild(document.createElement("br"));
-
-                //taskElement.appendChild(document.createTextNode("Fait : "));
-                taskElement.appendChild(isDoCheckbox);
-                taskElement.appendChild(document.createElement("br"));
-                taskElement.appendChild(document.createElement("br"));
-                taskElement.appendChild(document.createElement("br"));
-                isDoCheckbox.classList.add('isDoCheckboxClass');
+                todoElement.classList.add('toDoDesc');
 
                 if(task.isDo.value == false){
                     if(task.dateLimite.value > nowTimestamp){
@@ -303,13 +324,29 @@ function setupAgenda() {
             else if(role == "ADMIN"){
                 // Ajouter un élément span pour la croix
                 var deleteButton = document.createElement("span");
-                deleteButton.innerHTML = "&#10006;"; // Ajoutez la croix (X)
+                deleteButton.innerHTML = "supprimer"; // Ajoutez la croix (X)
                 deleteButton.style.cursor = "pointer"; // Changez le curseur pour indiquer la possibilité de clic
                 deleteButton.style.marginRight = "5px"; // Ajoutez un espace à droite de la croix
+                deleteButton.classList.add('deleteButton');
+
+                var deleteButtonContener = document.createElement("div");
+                deleteButtonContener.classList.add('deleteButtonContener');
+                deleteButtonContener.appendChild(deleteButton);
 
                 // Ajoutez le bouton de suppression à l'élément de tâche
-                taskElement.appendChild(deleteButton);
-                taskElement.appendChild(document.createElement("br"));
+                taskElement.appendChild(deleteButtonContener);
+
+                var isDoCheckbox = document.createElement("input");
+                isDoCheckbox.type = "checkbox";
+                isDoCheckbox.checked = task.isDo.value;
+                isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
+
+                var isDoCheckboxContener = document.createElement("div");
+                isDoCheckboxContener.classList.add('isDoCheckboxContener');
+                isDoCheckboxContener.appendChild(isDoCheckbox);
+
+                taskElement.appendChild(isDoCheckboxContener);
+                isDoCheckbox.classList.add('isDoCheckboxClass');
 
                 // Ajoutez un événement click pour appeler deleteTask
                 deleteButton.addEventListener("click", function() {
@@ -323,26 +360,14 @@ function setupAgenda() {
                 taskElement.appendChild(titleElement);
         
                 var dateElement = document.createElement("div");
-                dateElement.textContent = "Pour le : " + convertirTempsUnixEnString(task.dateLimite.value);
+                dateElement.textContent = convertirTempsUnixEnString(task.dateLimite.value);
                 taskElement.appendChild(dateElement);
                 dateElement.classList.add('dateOfTask');
-        
-                var isDoCheckbox = document.createElement("input");
-                isDoCheckbox.type = "checkbox";
-                isDoCheckbox.checked = task.isDo.value;
-                isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
         
                 var todoElement = document.createElement("div");
                 todoElement.textContent = task.toDo.value;
                 taskElement.appendChild(todoElement);
-                taskElement.appendChild(document.createElement("br"));
-
-                //taskElement.appendChild(document.createTextNode("Fait : "));
-                taskElement.appendChild(isDoCheckbox);
-                taskElement.appendChild(document.createElement("br"));
-                taskElement.appendChild(document.createElement("br"));
-                taskElement.appendChild(document.createElement("br"));
-                isDoCheckbox.classList.add('isDoCheckboxClass');
+                todoElement.classList.add('toDoDesc');
 
                 if(task.isDo.value == false){
                     if(task.dateLimite.value > nowTimestamp){
@@ -374,13 +399,29 @@ function setupAgenda() {
 
                      // Ajouter un élément span pour la croix
                     var deleteButton = document.createElement("span");
-                    deleteButton.innerHTML = "&#10006;"; // Ajoutez la croix (X)
+                    deleteButton.innerHTML = "supprimer"; // Ajoutez la croix (X)
                     deleteButton.style.cursor = "pointer"; // Changez le curseur pour indiquer la possibilité de clic
                     deleteButton.style.marginRight = "5px"; // Ajoutez un espace à droite de la croix
+                    deleteButton.classList.add('deleteButton');
 
+                    var deleteButtonContener = document.createElement("div");
+                    deleteButtonContener.classList.add('deleteButtonContener');
+                    deleteButtonContener.appendChild(deleteButton);
+    
                     // Ajoutez le bouton de suppression à l'élément de tâche
-                    taskElement.appendChild(deleteButton);
-                    taskElement.appendChild(document.createElement("br"));
+                    taskElement.appendChild(deleteButtonContener);
+
+                    var isDoCheckbox = document.createElement("input");
+                    isDoCheckbox.type = "checkbox";
+                    isDoCheckbox.checked = task.isDo.value;
+                    isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
+    
+                    var isDoCheckboxContener = document.createElement("div");
+                    isDoCheckboxContener.classList.add('isDoCheckboxContener');
+                    isDoCheckboxContener.appendChild(isDoCheckbox);
+    
+                    taskElement.appendChild(isDoCheckboxContener);
+                    isDoCheckbox.classList.add('isDoCheckboxClass');
 
                     // Ajoutez un événement click pour appeler deleteTask
                     deleteButton.addEventListener("click", function() {
@@ -393,27 +434,14 @@ function setupAgenda() {
                     taskElement.appendChild(titleElement);
             
                     var dateElement = document.createElement("div");
-                    dateElement.textContent = "Pour le : " + convertirTempsUnixEnString(task.dateLimite.value);
+                    dateElement.textContent = convertirTempsUnixEnString(task.dateLimite.value);
                     taskElement.appendChild(dateElement);
                     dateElement.classList.add('dateOfTask');
-            
-                    var isDoCheckbox = document.createElement("input");
-                    isDoCheckbox.type = "checkbox";
-                    isDoCheckbox.checked = task.isDo.value;
-                    isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
-            
+
                     var todoElement = document.createElement("div");
                     todoElement.textContent = task.toDo.value;
                     taskElement.appendChild(todoElement);
-                    taskElement.appendChild(document.createElement("br"));
-    
-                    //taskElement.appendChild(document.createTextNode("Fait : "));
-                    taskElement.appendChild(isDoCheckbox);
-                    taskElement.appendChild(document.createElement("br"));
-                    taskElement.appendChild(document.createElement("br"));
-                    taskElement.appendChild(document.createElement("br"));
-                    isDoCheckbox.classList.add('isDoCheckboxClass');
-
+                    todoElement.classList.add('toDoDesc');
                     
                     if(task.isDo.value == false){
                         if(task.dateLimite.value > nowTimestamp){
