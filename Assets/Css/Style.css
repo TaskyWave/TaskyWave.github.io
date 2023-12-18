@@ -62,8 +62,8 @@
 }
 
 .taskList strong{
-    grid-column: 1;
-    grid-row: 2;
+    grid-column: 2;
+    grid-row: 1;
 }
 
 .isDoCheckboxContener{
@@ -73,7 +73,9 @@
     display: flex;
 
     grid-column: 3;
-    grid-row: 3;
+    grid-row: 2;
+
+    margin: 20px;
 }
 
 .deleteButton {
@@ -81,6 +83,7 @@
     transition: 0.7s;
     font-family: WorkSans_Classic;
     font-size: 15px;
+    color: white;
 }
 
 .deleteButton:hover{
@@ -121,13 +124,13 @@
 
 .taskIsDo, .taskNotDo, .taskNotDoAndLate{
     display: grid;
-    grid-template-columns: 250px auto 250px; /* Deux colonnes, la première et la troisième sont de taille automatique, la deuxième prend le reste de l'espace disponible */
-
+    grid-template-columns: 80px auto 300px 20px; /* Deux colonnes, la première et la troisième sont de taille automatique, la deuxième prend le reste de l'espace disponible */
+    grid-template-rows: auto auto;
     gap: 10px; /* Espace entre les éléments */
 }
 
 .taskList span{
-    background-color: rgb(255, 83, 83);
+    background-color: #fe6462;
     padding: 4px;
     border-radius: 5px;
     height: 2px;
@@ -142,28 +145,40 @@
     font-weight: 700;
     font-family: Jost_Italic;
     grid-column: 3;
+    grid-row: 1;
+}
+
+.taskList .taskNotDo .colorOfTask{
+    background-color: rgb(193, 193, 193);
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    grid-column: 4;
     grid-row: 2;
 }
 
-.taskList .taskNotDo{
-    background-color: rgb(193, 193, 193);
-    padding: 5px;
+.taskList .taskNotDoAndLate .colorOfTask{
+    background-color: #fe6462;
+    padding: 10px;
     border-radius: 15px;
-    margin-bottom: 10px;
+    grid-column: 4;
+    grid-row: 2;
+
 }
 
-.taskList .taskNotDoAndLate{
-    background-color: rgb(255, 147, 147);
-    padding: 5px;
-    border-radius: 15px;
-    margin-bottom: 10px;
-}
-
-.taskList .taskIsDo{
+.taskList .taskIsDo .colorOfTask{
     background-color: rgb(133, 255, 127);
-    padding: 5px;
+    padding: 10px;
     border-radius: 15px;
     margin-bottom: 10px;
+    grid-column: 4;
+    grid-row: 2;
+}
+
+.taskList .taskIsDo, .taskList .taskNotDo, .taskList .taskNotDoAndLate{
+    background-color: #fff6e1;
+    margin-bottom: 10px;
+    border-radius: 20px;
 }
 
 @media screen and (max-width: 1300px){
@@ -171,18 +186,24 @@
         width: 40px;
         height: 40px;
     }
+}
 
-    .taskList strong{
-        font-size: 15px;
-    }
+/*#endregion*/
 
-    .toDoDesc{
-        font-size: 15px;
-    }
+/*#region Agenda form*/
 
-    .taskList .dateOfTask{
-        font-size: 15px;
-    }
+.agenda-addevent-public{
+    background-color: #d4d4d4;
+    border-radius: 25px;
+    margin: 25px;
+    padding: 30px;
+}
+
+.form-agenda-addevent-private{
+    background-color: #d4d4d4;
+    border-radius: 25px;
+    margin: 25px;
+    padding: 30px;
 }
 
 /*#endregion*/
@@ -190,7 +211,7 @@
 /*#region EDT*/
 #listeEvenements{
     padding: 10px;
-    background-color: #f1f1f1;
+    background-color: #d4d4d4;
     border-radius: 20px;
     margin-left: 10px;
 }
@@ -402,7 +423,7 @@ input:hover, .button:hover, textarea:hover, select:hover{
 
 /*#region Navigation (header)*/
 .navbar {
-    background-color: rgb(226, 226, 226);
+    background-color: rgb(20,20,20);
     display: block;
     align-items: center;
     justify-content: space-between;
@@ -419,7 +440,7 @@ input:hover, .button:hover, textarea:hover, select:hover{
 }
 
 .menu li:hover {
-    background-color: #a6d0fb;
+    background-color: #fff6e1;
     border-radius: 25px;
     transition: 0.7s;
     
@@ -431,7 +452,7 @@ input:hover, .button:hover, textarea:hover, select:hover{
 }
 
 .menu li {
-    background-color: #77bbff;
+    background-color: #a6d0fb;
     border-radius: 10px;
     padding: 5px 14px;
     transition: 0.7s;
@@ -537,7 +558,7 @@ header {
 }
 
 body, html{
-    background-color: rgb(20,20,20);
+    /*background-color: rgb(20,20,20);*/
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
@@ -629,7 +650,7 @@ h3 {
     font-family: WorkSans_Classic;
     font-size: 35px;
     text-align: center;
-    color: rgb(61,61,61);
+    color: #fff6e1;
 }
 
 h4{

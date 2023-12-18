@@ -296,6 +296,10 @@ function setupAgenda() {
                 taskElement.appendChild(todoElement);
                 todoElement.classList.add('toDoDesc');
 
+                var colorOfTask = document.createElement("div");
+                taskElement.appendChild(colorOfTask);
+                colorOfTask.classList.add('colorOfTask');
+
                 if(task.isDo.value == false){
                     if(task.dateLimite.value > nowTimestamp){
                         taskElement.classList.add('taskNotDo');
@@ -388,6 +392,10 @@ function setupAgenda() {
                 if (task.titre.value === 'defaultTask') {
                     taskElement.style.display = 'none';
                 }
+
+                var colorOfTask = document.createElement("div");
+                taskElement.appendChild(colorOfTask);
+                colorOfTask.classList.add('colorOfTask');
         
                 // Ajouter l'événement onClick directement dans le HTML
                 isDoCheckbox.addEventListener("click", function() {
@@ -457,6 +465,10 @@ function setupAgenda() {
             
                     // Ajouter l'élément de tâche à la liste
                     taskListContainer.appendChild(taskElement);
+
+                    var colorOfTask = document.createElement("div");
+                    taskElement.appendChild(colorOfTask);
+                    colorOfTask.classList.add('colorOfTask');
             
                     // Masquer la tâche "defaultTask"
                     if (task.titre.value === 'defaultTask') {
