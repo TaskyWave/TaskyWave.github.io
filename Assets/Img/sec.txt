@@ -1,0 +1,14 @@
+{
+  "rules": {
+    ".read": true,
+		"user":{
+      ".write": true,
+    },
+    "BDE":{
+      ".write": true,
+    },
+    "agenda":{
+      ".write": true,
+    }
+  }
+}

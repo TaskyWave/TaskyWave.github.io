@@ -167,7 +167,7 @@ export async function setupEDT(){
                     
                     // Exemple d'utilisation
                     let eventColor = event.color || "#77bbff";
-                    let color = intensifyColor(eventColor, -1);
+                    let color = intensifyColor(eventColor, -2.5);
                     
                     eventElement.style.backgroundColor = color;
     

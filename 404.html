@@ -1,16 +1,11 @@
-<!--
-    Willow Games Studio (index)
-    auteur : wislly (C.D)
-    version : 2023.11.09
--->
 <!DOCTYPE html>
 <html>
     <!--Meta et liens-->
     <head>
         <!-- Titre onglet -->
-        <title>TaskyWave - 404</title>
+        <title>TaskyWave - Compte</title>
         <!-- Meta SEO -->
-        <meta name="revised" content="19/11/2023"/>
+        <meta name="revised" content="19/12/2023"/>
         <meta name="Category" content="games, software">
         <meta charset="UTF-8">
         <meta name="keywords" content="TaskyWave">
@@ -27,30 +22,31 @@
         <nav class="navbar">
             <!-- logo -->
             <div class="logo">
-                <a href="index.html"><h3><img src="Assets/Img/icons8-ordre-du-jour-64.png" alt="" width="80", height="80">TaskyWave - 404</h3></a>
+                <a href="index.html"><h3><img src="Assets/Img/icons8-ordre-du-jour-64.png" alt="" width="80" height="80">TaskyWave - Compte</h3></a>
             </div>
             <!-- menu -->
             <ul class="nav-links">
-              <div class="menu">
-                <li><p><a href="index.html">Menu</a></p></li>
-                <li><p><a href="credit.html">Credits</a></p></li>
-                <li id="btn-login" disabled="true" onclick="login()" ><p><a href="">Compte</a></p></li>
-                <li id="btn-logout" disabled="true" onclick="logout()" ><p><a href="">Déconnexion</a></p></li>
-              </div>
+                <div class="menu">
+                <li style="cursor: pointer;"><p><a href="index.html"><img src="Assets/Img/Assets/Boutons/home.png" alt="" width="40" height="40">Menu</a></p></li>
+                <li style="cursor: pointer;"><p><a href="credit.html"><img src="Assets/Img/Assets/Boutons/credit.png" alt="" width="40" height="40">Crédits</a></p></li>
+                <li id="btn-account" style="display: none; cursor: pointer;"><p><a href="compte.html"><img src="Assets/Img/Assets/Boutons/account.png" alt="" width="40" height="40">Bureau</a></p></li>
+                <li id="btn-login" onclick="login()" style="display: none; cursor: pointer;"><p><a href="compte.html"><img src="Assets/Img/Assets/Boutons/account.png" alt="" width="40" height="40">Connexion</a></p></li>
+                <li id="btn-logout" onclick="logout()" style="display: none; cursor: pointer;"><p><a><img src="Assets/Img/Assets/Boutons/logout.png" alt="" width="40" height="40">Déconnexion</a></p></li>
+                </div>
             </ul>
-          </nav>
+        </nav>
         <!-- Titre page + présentation -->
         <div class="">
             <div class="">
                 <nav class="">
                     <!-- logo -->
                     <div class="logo">
-                        <h2>404<br>Page inexistante</h2>
+                        <h2><img src="Assets/Img/illus404.png" width="180" height="180" alt=""><br>404<br>Page inexistante</h2>
                     </div>
                     <!-- menu -->
                     <ul class="nav-links">
                       <div class="menu">
-                        <li><p><a href="index.html">Menu</a></p></li>
+                        <li style="cursor: pointer;"><p><a href="index.html"><img src="Assets/Img/Assets/Boutons/home.png" alt="" width="40" height="40">Menu</a></p></li>
                       </div>
                     </ul>
                   </nav>
@@ -73,15 +69,22 @@
     </body>
     <!-- pied de page -->
     <footer>
+        <!-- présentation réseaux et communication -->
+        <!-- liens réseaux -->
         <div class="reseaux">
+            <a target="_blank" title="Willow Games Studio - X (Tweeter)" href="https://twitter.com/WillowGamesSt"><img style="border-radius: 15px;" src="Assets/Img/Social/twitter-x-logo.jpg" alt="" width="75", height="75"></a>
+            <a target="_blank" title="Willow Games Studio - YouTube" href="https://www.youtube.com/@WillowGamesStudio?sub_confirmation=1"><img src="Assets/Img/Social/youtube.png" alt="" width="75", height="75"></a>
+            <!--<a target="_blank" title="Willow Games Studio - Steam" href="https://steamcommunity.com/id/WillowGamesStudio/"><img src="Assets/Img/Social/steam.png" alt="" width="75", height="75"></a>-->
             <a target="_blank" title="Willow Games Studio - GitHub" href="https://github.com/WillowGamesStudio"><img src="Assets/Img/Social/github.png" alt="" width="75", height="75"></a>
+            <!--<a target="_blank" title="Willow Games Studio - Discord" href="https://discord.gg/HNRXywaKUh"><img src="Assets/Img/Social/discord.png" alt="" width="75", height="75"></a>-->
             <a target="_blank" title="Willow Games Studio - Instagram" href="https://www.instagram.com/willowgamesstudio/"><img src="Assets/Img/Social/instagram.png" alt="" width="75", height="75"></a>
+            <!-- crédit de bas de page -->
         </div>
         <p>© Logo par <a href="https://icons8.com/icon/mItYRMkuHHyM/ordre-du-jour" target="_blank">icones8.fr</a> | Free for personal and commercial use under the CCA 3.0 license : <a href="https://icones8.fr/license" target="_blank">icones8.fr/license</a>
             <br>
             <br>© Fait par C.D | HTML, CSS, JS, <a href="https://code.visualstudio.com" target="_blank">Visual Studio Code</a>
             <br>
-            <br>© Base de données | <a href="https://supabase.com/" target="_blank">Supabase</a>
+            <br>© Base de données | <a href="https://firebase.google.com/" target="_blank">Firebase</a>
             <br>
             <br>© Gestion de compte | <a href="https://auth0.com/" target="_blank">Auth0</a>
         </p>
