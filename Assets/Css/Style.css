@@ -637,6 +637,7 @@ footer {
 
 footer p{
     color: rgb(181, 181, 181);
+    margin: 8px;
 }
 
 p {
