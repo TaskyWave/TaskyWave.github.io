@@ -53,6 +53,9 @@ export async function setupEDT(){
 
     await loadEDTTime().then();
     currentDate = new Date(dateDebut);
+
+    console.log(dateDebut);
+
     currentDate.setHours(0, 0, 0, 0);
     tomorrowDate.setDate(currentDate.getDate() + 1);
     
@@ -67,7 +70,7 @@ export async function setupEDT(){
     
                 // Triez les événements par horaire
                 tousLesEvenements.sort((a, b) => a.start - b.start);
-    
+
                 // Filtrer les événements entre dateDebut et dateFin
                 const evenementsFiltres = tousLesEvenements.filter(event => event.start >= dateDebut && event.end <= dateFin);
 
@@ -88,6 +91,7 @@ export async function setupEDT(){
 
                 addDayButton.addEventListener("click", async function () {
                     currentDate.setDate(currentDate.getDate() + 1);
+                    tomorrowDate = new Date(currentDate.getTime());
                     tomorrowDate.setDate(tomorrowDate.getDate() + 1);
                 
                     // Mettez à jour les timestamps
@@ -123,12 +127,16 @@ export async function setupEDT(){
 
                 // Ajouter un gestionnaire d'événements pour enlever un jour aux dates
                 subtractDayButton.addEventListener("click", async function () {
+                    tomorrowDate = new Date(currentDate.getTime());
                     currentDate.setDate(currentDate.getDate() - 1);
-                    tomorrowDate.setDate(tomorrowDate.getDate() - 1);
 
                     // Mettez à jour les timestamps
                     dateDebut = currentDate.getTime();
                     dateFin = tomorrowDate.getTime();
+
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    console.log(new Date(dateDebut).toLocaleDateString('fr-FR', options));
+                    console.log(new Date(dateFin).toLocaleDateString('fr-FR', options));
 
                     await saveEDTTime();
 
@@ -162,6 +170,7 @@ export async function setupEDT(){
                         <strong>${event.name}</strong><br>
                         ${event.location}<br>
                         ${event.description}<br>
+                        <br>
                         ${formatTime(event.start)} - ${formatTime(event.end)}
                     `;
                     
@@ -175,15 +184,18 @@ export async function setupEDT(){
     
                     // Ajoutez un élément de temps entre les événements (sauf pour le dernier événement)
                     if (index < array.length - 1) {
-                        const timeGapElement = document.createElement('div');
-                        timeGapElement.classList.add('time-gap');
-                        timeGapElement.innerHTML = `Pause : ${calculateTimeGap(event.end, array[index + 1].start)}`;
-                        
-                        const timeGap = index < array.length - 1 ? array[index + 1].start - event.end : 0;
-    
-                        timeGapElement.style.height = `${timeGap / (1000 * 60) + 30}px`;
-                        // Ajoutez l'élément de temps après l'événement actuel et avant l'événement suivant
-                        listeEvenementsDiv.appendChild(timeGapElement);
+                        if(calculateTimeGap(event.end, array[index + 1].start) != "rien"){
+                            const timeGapElement = document.createElement('div');
+
+                            timeGapElement.classList.add('time-gap');
+                            timeGapElement.innerHTML = `Pause : ${calculateTimeGap(event.end, array[index + 1].start)}`;
+                            
+                            const timeGap = index < array.length - 1 ? array[index + 1].start - event.end : 0;
+        
+                            timeGapElement.style.height = `${timeGap / (1000 * 60) + 30}px`;
+                            // Ajoutez l'élément de temps après l'événement actuel et avant l'événement suivant
+                            listeEvenementsDiv.appendChild(timeGapElement);
+                        }
                     }
                 });
             })
@@ -226,15 +238,14 @@ function calculateTimeGap(endTime, nextStartTime) {
     } else if (hours > 0 && minutes > 0) {
         return `${hours}h ${minutes}min`;
     } else {
-        return "";
+        return "rien";
     }
 }
 
 datePicker.addEventListener('change', async function (){
-    const selectedDate = new Date(datePicker.value);
-
-    currentDate.setDate(selectedDate.getDate());
-    tomorrowDate.setDate(selectedDate.getDate() + 1);
+    currentDate = new Date(datePicker.value);
+    tomorrowDate = new Date(datePicker.value);
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
 
     // Mettez à jour les timestamps
     dateDebut = currentDate.getTime();

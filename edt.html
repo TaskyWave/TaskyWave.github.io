@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <!--Meta et liens-->
+    <head>
+        <!-- Titre onglet -->
+        <title>TaskyWave - Compte</title>
+        <!-- Meta SEO -->
+        <meta name="revised" content="19/12/2023"/>
+        <meta name="Category" content="games, software">
+        <meta charset="UTF-8">
+        <meta name="keywords" content="TaskyWave">
+        <meta name="author" content="Wislly (C.D), TaskyWave"/>
+        <meta name="description" content="TaskyWave est un Agenda en ligne indépendant">
+        <meta name="robots" content="index,follow"/>
+        <!-- Logo, script, lien css -->
+        <link rel="icon" type="image/x-icon" href="Assets/Img/tasky.png">
+        <link rel="stylesheet" type="text/css" href="Assets/Css/Style.css"/>
+    </head>
+    <!-- Haut de page -->
+    <header>
+        <!-- haut de page (navigation + titre) -->
+        <nav class="navbar">
+            <!-- logo -->
+            <div class="logo">
+                <a href="index.html"><h3><img src="Assets/Img/tasky.png" alt="" width="80" height="80">TaskyWave - Compte</h3></a>
+            </div>
+            <!-- menu -->
+            <ul class="nav-links">
+                <div class="menu">
+                <li style="cursor: pointer;"><p><a href="index.html"><img src="Assets/Img/Assets/Boutons/home.png" alt="" width="40" height="40">Menu</a></p></li>
+                <li style="cursor: pointer;"><p><a href="credit.html"><img src="Assets/Img/Assets/Boutons/credit.png" alt="" width="40" height="40">Crédits</a></p></li>
+                <li style="cursor: pointer;"><p><a href="credit.html"><img src="Assets/Img/Assets/Boutons/settings.png" alt="" width="40" height="40">Paramètres</a></p></li>
+                <li id="btn-account" style="display: none; cursor: pointer;"><p><a href="compte.html"><img src="Assets/Img/Assets/Boutons/account.png" alt="" width="40" height="40">Bureau</a></p></li>
+                <li id="btn-logout" style="display: none; cursor: pointer;"><p><a><img src="Assets/Img/Assets/Boutons/logout.png" alt="" width="40" height="40">Déconnexion</a></p></li>
+                </div>
+            </ul>
+        </nav>
+        <div class="grid-container">
+            <div class="edt">
+                <div id="listeEvenements">
+                    <h2 id="edt_titre_main">Chargement ...</h2><br><br>
+                    <h2><img src="Assets/Img/illusEDT.png" width="80" height="80" alt=""></h2>
+                    <div class="dateEDTInput">
+                        <label for="datePicker">Choisir une date :</label>
+                        <input type="date" id="datePicker">
+                    </div>
+                    <br><br>
+                </div>
+                <br><br>
+                <button class="buttonShowAllEDT">Voir Tout L'EDT</button>
+                <br><br>
+            </div>
+            <div class="info">
+                <h2><img src="Assets/Img/illusAgenda.png" width="180" height="180" alt=""></h2>
+                <div class="taskList" id="taskListPrivate">
+                    <h2>Agenda</h2><br><br>
+                </div>
+            </div>
+        </div>
+    </header>
+    <body>
+        <section class="description">
+            <h2>Ajouter des taches</h2><br><br><br><br><br><br>
+            <div class="grid-container">
+                <section class="agenda-addevent-private">
+                    <form class="form-agenda-addevent-private" method="post">
+                        <h2>Ajouter une tâche privé</h2>
+                        <label for="titre"><h4>Titre :</h4></label>
+                        <input type="text" id="titre" name="titre" required><br>
+                
+                        <label for="description"><h4>Description :</h4></label>
+                        <textarea id="description" name="description" rows="4" required></textarea><br>
+                
+                        <label for="dateLimite"><h4>Date limite :</h4></label>
+                        <input type="date" id="dateLimite" name="dateLimite" required><br>
+
+                        <label for="horaireLimite"><h4>Horaire limite :</h4></label>
+                        <input type="time" id="horaireLimite" name="horaireLimite" required><br><br>
+                
+                        <button id="agenda-new-task-btn" class="button">Soumettre</button>
+                    </form>
+                </section>
+                <section style="display: none;" id="section-agenda-addevent-public" class="agenda-addevent-public">
+                    <h2>Ajouter une tâche public (admin only)</h2>
+                    <form class="b" method="post">
+                        <label for="titre"><h4>Titre :</h4></label>
+                        <input type="text" id="titre-public" name="titre" required><br>
+                
+                        <label for="description"><h4>Description :</h4></label>
+                        <textarea id="description-public" name="description" rows="4" required></textarea><br>
+                
+                        <label for="dateLimite"><h4>Date limite :</h4></label>
+                        <input type="date" id="dateLimite-public" name="dateLimite" required><br>
+
+                        <label for="horaireLimite"><h4>Horaire limite :</h4></label>
+                        <input type="time" id="horaireLimite-public" name="horaireLimite" required><br>
+                        
+                        <label for="groupe"><h4>Sélectionnez un groupe :</h4></label>
+                        <select id="groupeVisee-public" name="groupe" required>
+                            <option value="D">D</option>
+                            <option value="D1">D1</option>
+                            <option value="D2">D2</option>
+                            <!-- Ajoutez autant d'options que nécessaire -->
+                        </select><br><br>
+                
+                        <button id="agenda-new-task-btn-public" class="button">Soumettre</button>
+                    </form>
+                </section>
+            </div>
+        </section>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <span class="close" id="fermerPopup">&times;</span>
+                <h2 id="titrePopup"></h2>
+                <p id="messagePopup"></p>
+            </div>
+        </div>
+        <div class="popup" id="popup-insc">
+            <div class="popup-content">
+                <h2>Groupe inconnu !</h2>
+                <p>Entrez votre groupe pour continuer :</p>
+                <form method="post">
+                    <label for="groupe"><h4>Sélectionnez un groupe :</h4></label>
+                    <select id="groupeChoisi" name="groupe" required>
+                        <option value="D1">D1</option>
+                        <option value="D2">D2</option>
+                        <!-- Ajoutez autant d'options que nécessaire -->
+                    </select><br><br>
+                    <button id="setupGroup-btn" class="button">Soumettre</button>
+                </form>
+            </div>
+        </div>
+        <br>
+        <br>
+        <script src="https://cdn.auth0.com/js/auth0-spa-js/1.2/auth0-spa-js.production.js"></script>
+        <script type="module" src="Assets/Js/compte/auth.js"></script>
+        <script type="module" src="Assets/Js/compte/compte.js"></script>
+        <script type="module" src="Assets/Js/compte/edt.js"></script>
+        <script type="module" src="Assets/Js/compte/agenda.js"></script>
+        <script type="module" src="Assets/Js/compte/popup.js"></script>
+    </body>
+    <!-- pied de page -->
+    <footer>
+        <!-- présentation réseaux et communication -->
+        <!-- liens réseaux -->
+        <div class="reseaux">
+            <a target="_blank" title="Willow Games Studio - X (Tweeter)" href="https://twitter.com/WillowGamesSt"><img style="border-radius: 15px;" src="Assets/Img/Social/twitter-x-logo.jpg" alt="" width="75", height="75"></a>
+            <a target="_blank" title="Willow Games Studio - YouTube" href="https://www.youtube.com/@WillowGamesStudio?sub_confirmation=1"><img src="Assets/Img/Social/youtube.png" alt="" width="75", height="75"></a>
+            <!--<a target="_blank" title="Willow Games Studio - Steam" href="https://steamcommunity.com/id/WillowGamesStudio/"><img src="Assets/Img/Social/steam.png" alt="" width="75", height="75"></a>-->
+            <a target="_blank" title="Willow Games Studio - GitHub" href="https://github.com/WillowGamesStudio"><img src="Assets/Img/Social/github.png" alt="" width="75", height="75"></a>
+            <!--<a target="_blank" title="Willow Games Studio - Discord" href="https://discord.gg/HNRXywaKUh"><img src="Assets/Img/Social/discord.png" alt="" width="75", height="75"></a>-->
+            <a target="_blank" title="Willow Games Studio - Instagram" href="https://www.instagram.com/willowgamesstudio/"><img src="Assets/Img/Social/instagram.png" alt="" width="75", height="75"></a>
+            <!-- crédit de bas de page -->
+        </div>
+        <p>© Logo par <a href="https://icons8.com/icon/mItYRMkuHHyM/ordre-du-jour" target="_blank">icones8.fr</a> | Free for personal and commercial use under the CCA 3.0 license : <a href="https://icones8.fr/license" target="_blank">icones8.fr/license</a>
+            <br>
+            <br>© Fait par C.D | HTML, CSS, JS, <a href="https://code.visualstudio.com" target="_blank">Visual Studio Code</a>
+            <br>
+            <br>© Base de données | <a href="https://firebase.google.com/" target="_blank">Firebase</a>
+            <br>
+            <br>© Gestion de compte | <a href="https://auth0.com/" target="_blank">Auth0</a>
+        </p>
+    </footer>
+</html>
