@@ -391,6 +391,10 @@ a img{
     vertical-align: middle;
 }
 
+p img{
+    vertical-align: middle;
+}
+
 textarea{
     background-color: #ffffff;
     border-radius: 5px;
@@ -446,13 +450,13 @@ input:hover, .button:hover, select:hover{
     transition: 0.7s;
 }
 
-.menu li p a{
+.menu li p a, .menu li p{
     color: rgb(194, 194, 194);
     font-family: WorkSans_Classic;
     transition: 0.7s;
 }
 
-.menu li p a img{
+.menu li p a img, .menu li p img{
     background-color: #808080;
     border-radius: 100%;
     padding: 5px;
@@ -465,14 +469,14 @@ input:hover, .button:hover, select:hover{
     text-decoration: underline;
 }
 
-.menu li p a img:hover{
+.menu li p a img:hover, .menu li p img:hover{
     background-color: #bbc19c;
     border-radius: 100%;
     padding: 5px;
     transition: 0.7s;
 }
 
-.menu li p a:hover{
+.menu li p a:hover, .menu li p:hover{
     color: rgb(212, 255, 111);
     transition: 0.7s;
 }
