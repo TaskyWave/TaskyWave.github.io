@@ -1,6 +1,6 @@
 import { databaseIsReady, initDataBase } from './compte.js';
 import { loadAgenda, loadAgendaPublic } from './agenda.js';
-import { setupEDT } from './edt.js';
+import { setupEDT } from './edtCompte.js';
 
 export let auth0 = null;
 export let isAuthenticated = null;
@@ -22,6 +22,8 @@ const configureClient = async () => {
   auth0 = await createAuth0Client({
     domain: "dev-k2kmewd5n7y1vv4c.us.auth0.com",
     client_id: "ViENR2c3HWIW5eof4jwpBW2n81DEqRVz",
+    cacheLocation: 'localstorage',
+    useRefreshTokens: true
   })
 }
 

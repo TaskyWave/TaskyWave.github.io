@@ -10,6 +10,9 @@ var messagePopup = document.getElementById('messagePopup');
 
 var popupInscription = document.getElementById('popup-insc');
 var fermerPopupInscription = document.getElementById('fermerPopup-insc');
+var header = document.querySelector("header");
+var body = document.querySelector("section");
+var footer = document.querySelector("footer");
 
 document.addEventListener('DOMContentLoaded', function () {
     // Récupérez les éléments du DOM
@@ -40,6 +43,9 @@ export function afficherPopup(titre, message) {
 export function afficherPopupInscription(){
     popupFermer = false;
     popupInscription.style.display = 'block';
+    header.style.display = 'none';
+    body.style.display = 'none';
+    footer.style.display = 'none';
 }
 
 export async function fermerPopupFnInscription() {

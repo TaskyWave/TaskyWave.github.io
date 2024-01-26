@@ -217,293 +217,315 @@ export function deletePublicTask(titre){
 }
 
 function setupAgenda() {
+    try{
 
-    var tasks = JSON.parse(agendaData);
+        var tasks = JSON.parse(agendaData);
+        var taskListContainer = document.getElementById("taskListPrivate");
 
-    var taskListContainer = document.getElementById("taskListPrivate");
-
-    // Convertir l'objet en tableau pour pouvoir le trier
-    var taskArray = [];
-    for (var taskKey in tasks) {
-        if (tasks.hasOwnProperty(taskKey)) {
-            taskArray.push(tasks[taskKey]);
+        // Convertir l'objet en tableau pour pouvoir le trier
+        var taskArray = [];
+        for (var taskKey in tasks) {
+            if (tasks.hasOwnProperty(taskKey)) {
+                taskArray.push(tasks[taskKey]);
+            }
         }
-    }
 
-    // Trier le tableau par date (assumant que la date est une chaîne pouvant être convertie en objet Date)
-    taskArray.sort(function (a, b) {
-        var dateA = new Date(a.dateLimite.value);
-        var dateB = new Date(b.dateLimite.value);
+        // Trier le tableau par date (assumant que la date est une chaîne pouvant être convertie en objet Date)
+        taskArray.sort(function (a, b) {
+            var dateA = new Date(a.dateLimite.value);
+            var dateB = new Date(b.dateLimite.value);
 
-        return dateA - dateB;
-    });
+            return dateA - dateB;
+        });
 
-    // Ajouter les tâches triées à la liste
-    for (var i = 0; i < taskArray.length; i++) {
-        (async function () {
-            var task = taskArray[i];
-    
-            // Créer un élément HTML pour chaque tâche
-            var taskElement = document.createElement("div");
-            var user_id = userProfile.sub;
-            await readData("user/" + user_id + "/role/").then(resultat => role = resultat);
-            await readData("user/" + user_id + "/groupe/").then(resultat => groupe = resultat);
+        try{
 
-            if(task.isPublic.value == "false"){
-                // Ajouter un élément span pour la croix
-                var deleteButton = document.createElement("span");
-                deleteButton.innerHTML = "supprimer"; // Ajoutez la croix (X)
-                deleteButton.style.cursor = "pointer"; // Changez le curseur pour indiquer la possibilité de clic
-                deleteButton.style.marginRight = "5px"; // Ajoutez un espace à droite de la croix
-                deleteButton.classList.add('deleteButton');
-
-                var deleteButtonContener = document.createElement("div");
-                deleteButtonContener.classList.add('deleteButtonContener');
-                deleteButtonContener.appendChild(deleteButton);
-
-                // Ajoutez le bouton de suppression à l'élément de tâche
-                taskElement.appendChild(deleteButtonContener);
-
-                var isDoCheckbox = document.createElement("input");
-                isDoCheckbox.type = "checkbox";
-                isDoCheckbox.checked = task.isDo.value;
-                isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
-
-                var isDoCheckboxContener = document.createElement("div");
-                isDoCheckboxContener.classList.add('isDoCheckboxContener');
-                isDoCheckboxContener.appendChild(isDoCheckbox);
-
-                taskElement.appendChild(isDoCheckboxContener);
-                isDoCheckbox.classList.add('isDoCheckboxClass');
-
-                // Ajoutez un événement click pour appeler deleteTask
-                deleteButton.addEventListener("click", function() {
-                    deleteTask(task.titre.value);
-                    taskElement.remove(); // Supprime l'élément après avoir supprimé la tâche
-                });
-
-                var titleElement = document.createElement("strong");
-                titleElement.textContent = task.titre.value;
-                taskElement.appendChild(titleElement);
-        
-                var dateElement = document.createElement("div");
-                dateElement.textContent = convertirTempsUnixEnString(task.dateLimite.value);
-                taskElement.appendChild(dateElement);
-                dateElement.classList.add('dateOfTask');
-                
-                var todoElement = document.createElement("div");
-                todoElement.textContent = task.toDo.value;
-                taskElement.appendChild(todoElement);
-                todoElement.classList.add('toDoDesc');
-
-                var colorOfTask = document.createElement("div");
-                taskElement.appendChild(colorOfTask);
-                colorOfTask.classList.add('colorOfTask');
-
-                if(task.isDo.value == false){
-                    if(task.dateLimite.value > nowTimestamp){
-                        taskElement.classList.add('taskNotDo');
-                    }
-                    else{
-                        taskElement.classList.add('taskNotDoAndLate');
-                    }
-                }
-                else{
-                    taskElement.classList.add('taskIsDo');
-                }
-        
-                // Ajouter l'élément de tâche à la liste
-                taskListContainer.appendChild(taskElement);
-        
-                // Masquer la tâche "defaultTask"
-                if (task.titre.value === 'defaultTask') {
-                    taskElement.style.display = 'none';
-                }
-        
-                // Ajouter l'événement onClick directement dans le HTML
-                isDoCheckbox.addEventListener("click", function() {
-                    updateTaskIsDo(task.titre.value, isDoCheckbox.checked);
-                });
-            }
-            else if(role == "ADMIN"){
-                // Ajouter un élément span pour la croix
-                var deleteButton = document.createElement("span");
-                deleteButton.innerHTML = "supprimer"; // Ajoutez la croix (X)
-                deleteButton.style.cursor = "pointer"; // Changez le curseur pour indiquer la possibilité de clic
-                deleteButton.style.marginRight = "5px"; // Ajoutez un espace à droite de la croix
-                deleteButton.classList.add('deleteButton');
-
-                var deleteButtonContener = document.createElement("div");
-                deleteButtonContener.classList.add('deleteButtonContener');
-                deleteButtonContener.appendChild(deleteButton);
-
-                // Ajoutez le bouton de suppression à l'élément de tâche
-                taskElement.appendChild(deleteButtonContener);
-
-                var isDoCheckbox = document.createElement("input");
-                isDoCheckbox.type = "checkbox";
-                isDoCheckbox.checked = task.isDo.value;
-                isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
-
-                var isDoCheckboxContener = document.createElement("div");
-                isDoCheckboxContener.classList.add('isDoCheckboxContener');
-                isDoCheckboxContener.appendChild(isDoCheckbox);
-
-                taskElement.appendChild(isDoCheckboxContener);
-                isDoCheckbox.classList.add('isDoCheckboxClass');
-
-                // Ajoutez un événement click pour appeler deleteTask
-                deleteButton.addEventListener("click", function() {
-                    deletePublicTask(task.titre.value);
-                    deleteTask(task.titre.value);
-                    taskElement.remove(); // Supprime l'élément après avoir supprimé la tâche
-                });
-
-                var titleElement = document.createElement("strong");
-                titleElement.textContent = task.titre.value;
-                taskElement.appendChild(titleElement);
-        
-                var dateElement = document.createElement("div");
-                dateElement.textContent = convertirTempsUnixEnString(task.dateLimite.value);
-                taskElement.appendChild(dateElement);
-                dateElement.classList.add('dateOfTask');
-        
-                var todoElement = document.createElement("div");
-                todoElement.textContent = task.toDo.value;
-                taskElement.appendChild(todoElement);
-                todoElement.classList.add('toDoDesc');
-
-                if(task.isDo.value == false){
-                    if(task.dateLimite.value > nowTimestamp){
-                        taskElement.classList.add('taskNotDo');
-                    }
-                    else{
-                        taskElement.classList.add('taskNotDoAndLate');
-                    }
-                }
-                else{
-                    taskElement.classList.add('taskIsDo');
-                }
-        
-                // Ajouter l'élément de tâche à la liste
-                taskListContainer.appendChild(taskElement);
-        
-                // Masquer la tâche "defaultTask"
-                if (task.titre.value === 'defaultTask') {
-                    taskElement.style.display = 'none';
-                }
-
-                var colorOfTask = document.createElement("div");
-                taskElement.appendChild(colorOfTask);
-                colorOfTask.classList.add('colorOfTask');
-        
-                // Ajouter l'événement onClick directement dans le HTML
-                isDoCheckbox.addEventListener("click", function() {
-                    updateTaskIsDo(task.titre.value, isDoCheckbox.checked);
-                });
-            }
-            else{
-                if(task.groupe.value == "D" || task.groupe.value == groupe && role != "ADMIN"){
-
-                     // Ajouter un élément span pour la croix
-                    var deleteButton = document.createElement("span");
-                    deleteButton.innerHTML = "supprimer"; // Ajoutez la croix (X)
-                    deleteButton.style.cursor = "pointer"; // Changez le curseur pour indiquer la possibilité de clic
-                    deleteButton.style.marginRight = "5px"; // Ajoutez un espace à droite de la croix
-                    deleteButton.classList.add('deleteButton');
-
-                    var deleteButtonContener = document.createElement("div");
-                    deleteButtonContener.classList.add('deleteButtonContener');
-                    deleteButtonContener.appendChild(deleteButton);
-    
-                    // Ajoutez le bouton de suppression à l'élément de tâche
-                    taskElement.appendChild(deleteButtonContener);
-
-                    var isDoCheckbox = document.createElement("input");
-                    isDoCheckbox.type = "checkbox";
-                    isDoCheckbox.checked = task.isDo.value;
-                    isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
-    
-                    var isDoCheckboxContener = document.createElement("div");
-                    isDoCheckboxContener.classList.add('isDoCheckboxContener');
-                    isDoCheckboxContener.appendChild(isDoCheckbox);
-    
-                    taskElement.appendChild(isDoCheckboxContener);
-                    isDoCheckbox.classList.add('isDoCheckboxClass');
-
-                    // Ajoutez un événement click pour appeler deleteTask
-                    deleteButton.addEventListener("click", function() {
-                        deleteTask(task.titre.value);
-                        taskElement.remove(); // Supprime l'élément après avoir supprimé la tâche
-                    });
-
-                    var titleElement = document.createElement("strong");
-                    titleElement.textContent = task.titre.value;
-                    taskElement.appendChild(titleElement);
+            // Ajouter les tâches triées à la liste
+            for (var i = 0; i < taskArray.length; i++) {
+                (async function () {
+                    var task = taskArray[i];
             
-                    var dateElement = document.createElement("div");
-                    dateElement.textContent = convertirTempsUnixEnString(task.dateLimite.value);
-                    taskElement.appendChild(dateElement);
-                    dateElement.classList.add('dateOfTask');
+                    // Créer un élément HTML pour chaque tâche
+                    var taskElement = document.createElement("div");
+                    var user_id = userProfile.sub;
+                    await readData("user/" + user_id + "/role/").then(resultat => role = resultat);
+                    await readData("user/" + user_id + "/groupe/").then(resultat => groupe = resultat);
 
-                    var todoElement = document.createElement("div");
-                    todoElement.textContent = task.toDo.value;
-                    taskElement.appendChild(todoElement);
-                    todoElement.classList.add('toDoDesc');
+                    try{
+
+                        if(task.isPublic.value == "false"){
+                            // Ajouter un élément span pour la croix
+                            var deleteButton = document.createElement("span");
+                            deleteButton.innerHTML = "supprimer"; // Ajoutez la croix (X)
+                            deleteButton.style.cursor = "pointer"; // Changez le curseur pour indiquer la possibilité de clic
+                            deleteButton.style.marginRight = "5px"; // Ajoutez un espace à droite de la croix
+                            deleteButton.classList.add('deleteButton');
+
+                            var deleteButtonContener = document.createElement("div");
+                            deleteButtonContener.classList.add('deleteButtonContener');
+                            deleteButtonContener.appendChild(deleteButton);
+
+                            // Ajoutez le bouton de suppression à l'élément de tâche
+                            taskElement.appendChild(deleteButtonContener);
+
+                            var isDoCheckbox = document.createElement("input");
+                            isDoCheckbox.type = "checkbox";
+                            isDoCheckbox.checked = task.isDo.value;
+                            isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
+
+                            var isDoCheckboxContener = document.createElement("div");
+                            isDoCheckboxContener.classList.add('isDoCheckboxContener');
+                            isDoCheckboxContener.appendChild(isDoCheckbox);
+
+                            taskElement.appendChild(isDoCheckboxContener);
+                            isDoCheckbox.classList.add('isDoCheckboxClass');
+
+                            // Ajoutez un événement click pour appeler deleteTask
+                            deleteButton.addEventListener("click", function() {
+                                deleteTask(task.titre.value);
+                                taskElement.remove(); // Supprime l'élément après avoir supprimé la tâche
+                            });
+
+                            var titleElement = document.createElement("strong");
+                            titleElement.textContent = task.titre.value;
+                            taskElement.appendChild(titleElement);
                     
-                    if(task.isDo.value == false){
-                        if(task.dateLimite.value > nowTimestamp){
-                            taskElement.classList.add('taskNotDo');
+                            var dateElement = document.createElement("div");
+                            dateElement.textContent = convertirTempsUnixEnString(task.dateLimite.value);
+                            taskElement.appendChild(dateElement);
+                            dateElement.classList.add('dateOfTask');
+                            
+                            var todoElement = document.createElement("div");
+                            todoElement.textContent = task.toDo.value;
+                            taskElement.appendChild(todoElement);
+                            todoElement.classList.add('toDoDesc');
+
+                            var colorOfTask = document.createElement("div");
+                            taskElement.appendChild(colorOfTask);
+                            colorOfTask.classList.add('colorOfTask');
+
+                            if(task.isDo.value == false){
+                                if(task.dateLimite.value > nowTimestamp){
+                                    taskElement.classList.add('taskNotDo');
+                                }
+                                else{
+                                    taskElement.classList.add('taskNotDoAndLate');
+                                }
+                            }
+                            else{
+                                taskElement.classList.add('taskIsDo');
+                            }
+                    
+                            // Ajouter l'élément de tâche à la liste
+                            taskListContainer.appendChild(taskElement);
+                    
+                            // Masquer la tâche "defaultTask"
+                            if (task.titre.value === 'defaultTask') {
+                                taskElement.style.display = 'none';
+                            }
+                    
+                            // Ajouter l'événement onClick directement dans le HTML
+                            isDoCheckbox.addEventListener("click", function() {
+                                updateTaskIsDo(task.titre.value, isDoCheckbox.checked);
+                            });
+                        }
+                        else if(role == "ADMIN"){
+                            // Ajouter un élément span pour la croix
+                            var deleteButton = document.createElement("span");
+                            deleteButton.innerHTML = "supprimer"; // Ajoutez la croix (X)
+                            deleteButton.style.cursor = "pointer"; // Changez le curseur pour indiquer la possibilité de clic
+                            deleteButton.style.marginRight = "5px"; // Ajoutez un espace à droite de la croix
+                            deleteButton.classList.add('deleteButton');
+
+                            var deleteButtonContener = document.createElement("div");
+                            deleteButtonContener.classList.add('deleteButtonContener');
+                            deleteButtonContener.appendChild(deleteButton);
+
+                            // Ajoutez le bouton de suppression à l'élément de tâche
+                            taskElement.appendChild(deleteButtonContener);
+
+                            var isDoCheckbox = document.createElement("input");
+                            isDoCheckbox.type = "checkbox";
+                            isDoCheckbox.checked = task.isDo.value;
+                            isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
+
+                            var isDoCheckboxContener = document.createElement("div");
+                            isDoCheckboxContener.classList.add('isDoCheckboxContener');
+                            isDoCheckboxContener.appendChild(isDoCheckbox);
+
+                            taskElement.appendChild(isDoCheckboxContener);
+                            isDoCheckbox.classList.add('isDoCheckboxClass');
+
+                            // Ajoutez un événement click pour appeler deleteTask
+                            deleteButton.addEventListener("click", function() {
+                                deletePublicTask(task.titre.value);
+                                deleteTask(task.titre.value);
+                                taskElement.remove(); // Supprime l'élément après avoir supprimé la tâche
+                            });
+
+                            var titleElement = document.createElement("strong");
+                            titleElement.textContent = task.titre.value;
+                            taskElement.appendChild(titleElement);
+                    
+                            var dateElement = document.createElement("div");
+                            dateElement.textContent = convertirTempsUnixEnString(task.dateLimite.value);
+                            taskElement.appendChild(dateElement);
+                            dateElement.classList.add('dateOfTask');
+                    
+                            var todoElement = document.createElement("div");
+                            todoElement.textContent = task.toDo.value;
+                            taskElement.appendChild(todoElement);
+                            todoElement.classList.add('toDoDesc');
+
+                            if(task.isDo.value == false){
+                                if(task.dateLimite.value > nowTimestamp){
+                                    taskElement.classList.add('taskNotDo');
+                                }
+                                else{
+                                    taskElement.classList.add('taskNotDoAndLate');
+                                }
+                            }
+                            else{
+                                taskElement.classList.add('taskIsDo');
+                            }
+                    
+                            // Ajouter l'élément de tâche à la liste
+                            taskListContainer.appendChild(taskElement);
+                    
+                            // Masquer la tâche "defaultTask"
+                            if (task.titre.value === 'defaultTask') {
+                                taskElement.style.display = 'none';
+                            }
+
+                            var colorOfTask = document.createElement("div");
+                            taskElement.appendChild(colorOfTask);
+                            colorOfTask.classList.add('colorOfTask');
+                    
+                            // Ajouter l'événement onClick directement dans le HTML
+                            isDoCheckbox.addEventListener("click", function() {
+                                updateTaskIsDo(task.titre.value, isDoCheckbox.checked);
+                            });
                         }
                         else{
-                            taskElement.classList.add('taskNotDoAndLate');
+                            if(task.groupe.value == "D" || task.groupe.value == groupe && role != "ADMIN"){
+
+                                // Ajouter un élément span pour la croix
+                                var deleteButton = document.createElement("span");
+                                deleteButton.innerHTML = "supprimer"; // Ajoutez la croix (X)
+                                deleteButton.style.cursor = "pointer"; // Changez le curseur pour indiquer la possibilité de clic
+                                deleteButton.style.marginRight = "5px"; // Ajoutez un espace à droite de la croix
+                                deleteButton.classList.add('deleteButton');
+
+                                var deleteButtonContener = document.createElement("div");
+                                deleteButtonContener.classList.add('deleteButtonContener');
+                                deleteButtonContener.appendChild(deleteButton);
+                
+                                // Ajoutez le bouton de suppression à l'élément de tâche
+                                taskElement.appendChild(deleteButtonContener);
+
+                                var isDoCheckbox = document.createElement("input");
+                                isDoCheckbox.type = "checkbox";
+                                isDoCheckbox.checked = task.isDo.value;
+                                isDoCheckbox.disabled = false; // Mettez à jour selon vos besoins
+                
+                                var isDoCheckboxContener = document.createElement("div");
+                                isDoCheckboxContener.classList.add('isDoCheckboxContener');
+                                isDoCheckboxContener.appendChild(isDoCheckbox);
+                
+                                taskElement.appendChild(isDoCheckboxContener);
+                                isDoCheckbox.classList.add('isDoCheckboxClass');
+
+                                // Ajoutez un événement click pour appeler deleteTask
+                                deleteButton.addEventListener("click", function() {
+                                    deleteTask(task.titre.value);
+                                    taskElement.remove(); // Supprime l'élément après avoir supprimé la tâche
+                                });
+
+                                var titleElement = document.createElement("strong");
+                                titleElement.textContent = task.titre.value;
+                                taskElement.appendChild(titleElement);
+                        
+                                var dateElement = document.createElement("div");
+                                dateElement.textContent = convertirTempsUnixEnString(task.dateLimite.value);
+                                taskElement.appendChild(dateElement);
+                                dateElement.classList.add('dateOfTask');
+
+                                var todoElement = document.createElement("div");
+                                todoElement.textContent = task.toDo.value;
+                                taskElement.appendChild(todoElement);
+                                todoElement.classList.add('toDoDesc');
+                                
+                                if(task.isDo.value == false){
+                                    if(task.dateLimite.value > nowTimestamp){
+                                        taskElement.classList.add('taskNotDo');
+                                    }
+                                    else{
+                                        taskElement.classList.add('taskNotDoAndLate');
+                                    }
+                                }
+                                else{
+                                    taskElement.classList.add('taskIsDo');
+                                }
+                        
+                                // Ajouter l'élément de tâche à la liste
+                                taskListContainer.appendChild(taskElement);
+
+                                var colorOfTask = document.createElement("div");
+                                taskElement.appendChild(colorOfTask);
+                                colorOfTask.classList.add('colorOfTask');
+                        
+                                // Masquer la tâche "defaultTask"
+                                if (task.titre.value === 'defaultTask') {
+                                    taskElement.style.display = 'none';
+                                }
+                        
+                                // Ajouter l'événement onClick directement dans le HTML
+                                isDoCheckbox.addEventListener("click", function() {
+                                    updateTaskIsDo(task.titre.value, isDoCheckbox.checked);
+                                });
+                            }
                         }
                     }
-                    else{
-                        taskElement.classList.add('taskIsDo');
+                    catch(err){
+                        console.error("Erreur setupAgenda/AjouterLesTâches/ReadTask >>> \n " + err);
                     }
-            
-                    // Ajouter l'élément de tâche à la liste
-                    taskListContainer.appendChild(taskElement);
 
-                    var colorOfTask = document.createElement("div");
-                    taskElement.appendChild(colorOfTask);
-                    colorOfTask.classList.add('colorOfTask');
-            
-                    // Masquer la tâche "defaultTask"
-                    if (task.titre.value === 'defaultTask') {
-                        taskElement.style.display = 'none';
-                    }
-            
-                    // Ajouter l'événement onClick directement dans le HTML
-                    isDoCheckbox.addEventListener("click", function() {
-                        updateTaskIsDo(task.titre.value, isDoCheckbox.checked);
-                    });
-                }
+                })();
             }
-        })();
+        }
+        catch(err){
+            console.error("Erreur setupAgenda/AjouterLesTâches >>> \n " + err);
+        }
+    }
+    catch(err){
+        console.error("Erreur setupAgenda >>> \n " + err);
     }
 }
 
 function convertirTempsUnixEnString(tempsUnix) {
-    // Créer une nouvelle instance de Date en utilisant le temps Unix (en millisecondes)
-    const date = new Date(tempsUnix * 1000);
-  
-    // Tableaux pour les noms des jours de la semaine et des mois
-    const joursSemaine = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
-    const mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-  
-    // Obtenir le nom du jour, le numéro du jour, le mois, l'heure et les minutes
-    const nomDuJour = joursSemaine[date.getDay()];
-    const numeroDuJour = date.getDate();
-    const moiDuTempsUnix = mois[date.getMonth()];
-    const heureTempUnix = date.getHours();
-    const minuteTempUnix = date.getMinutes();
-  
-    // Formater la chaîne résultante
-    const resultat = `${nomDuJour} ${numeroDuJour} ${moiDuTempsUnix}, à ${heureTempUnix}:${minuteTempUnix < 10 ? '0' : ''}${minuteTempUnix}`;
-  
-    return resultat;
+    try{
+        // Créer une nouvelle instance de Date en utilisant le temps Unix (en millisecondes)
+        const date = new Date(tempsUnix * 1000);
+    
+        // Tableaux pour les noms des jours de la semaine et des mois
+        const joursSemaine = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+        const mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+    
+        // Obtenir le nom du jour, le numéro du jour, le mois, l'heure et les minutes
+        const nomDuJour = joursSemaine[date.getDay()];
+        const numeroDuJour = date.getDate();
+        const moiDuTempsUnix = mois[date.getMonth()];
+        const heureTempUnix = date.getHours();
+        const minuteTempUnix = date.getMinutes();
+    
+        // Formater la chaîne résultante
+        const resultat = `${nomDuJour} ${numeroDuJour} ${moiDuTempsUnix}, à ${heureTempUnix}:${minuteTempUnix < 10 ? '0' : ''}${minuteTempUnix}`;
+    
+        return resultat;
+    }
+    catch(err){
+        console.error("Erreur convertirTempsUnixEnString >>> \n " + err);
+    }
   }
 
 document.addEventListener('DOMContentLoaded', () => {
