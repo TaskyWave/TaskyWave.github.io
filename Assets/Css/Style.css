@@ -472,7 +472,8 @@ input:hover, .button:hover, select:hover{
 }
 
 .menu li:hover {
-    transition: 0.7s;
+    transition: 0.2s;
+    opacity: 0.75;
 }
 
 .menu li p a, .menu li p{
