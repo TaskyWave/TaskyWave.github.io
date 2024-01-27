@@ -13,6 +13,7 @@ var fermerPopupInscription = document.getElementById('fermerPopup-insc');
 var header = document.querySelector("header");
 var body = document.querySelector("section");
 var footer = document.querySelector("footer");
+var overlay = document.getElementById('overlay');
 
 document.addEventListener('DOMContentLoaded', function () {
     // Récupérez les éléments du DOM
@@ -38,6 +39,7 @@ export function afficherPopup(titre, message) {
     titrePopup.textContent = titre;
     messagePopup.textContent = message;
     popup.style.display = 'block';
+    overlay.style.display = 'block';
 }
 
 export function afficherPopupInscription(){
@@ -46,6 +48,7 @@ export function afficherPopupInscription(){
     header.style.display = 'none';
     body.style.display = 'none';
     footer.style.display = 'none';
+    overlay.style.display = 'block';
 }
 
 export async function fermerPopupFnInscription() {
@@ -99,4 +102,5 @@ document.addEventListener('DOMContentLoaded', () => {
 export function fermerPopupFn() {
     popup.style.display = 'none';
     popupFermer = true;
+    overlay.style.display = 'none';
 }

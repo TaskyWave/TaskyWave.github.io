@@ -1,5 +1,6 @@
 import { getAgenda, databaseIsReady, readData, writeData, updateData, deleteData, getAgendaPublic } from './compte.js';
 import { userProfile } from './auth.js';
+import { afficherPopup, popupFermer, fermerPopupFn } from "./popup.js";
 
 let agendaData = null;
 let agendaDataPublic = null;
@@ -13,207 +14,270 @@ const resultatFormate = convertirTempsUnixEnString(tempsUnixActuel);
 console.log(resultatFormate);
 
 export async function loadAgenda(){
-    var user_id = userProfile.sub;
 
-    await readData("user/" + user_id + "/role/").then(resultat => role = resultat);
-    console.log(role);
-    var sectionElement = document.getElementById("section-agenda-addevent-public");
-    if(role == "user"){
-        // Vérifier si l'élément existe avant de le supprimer
-        if (sectionElement) {
-            // Supprimer l'élément
-            sectionElement.parentNode.removeChild(sectionElement);
-            console.log("removed !");
-        } else {
-            console.error("L'élément section-agenda-addevent-public n'existe pas.");
+    try{
+        var user_id = userProfile.sub;
+
+        await readData("user/" + user_id + "/role/").then(resultat => role = resultat);
+        console.log(role);
+        var sectionElement = document.getElementById("section-agenda-addevent-public");
+        if(role == "user"){
+            // Vérifier si l'élément existe avant de le supprimer
+            if (sectionElement) {
+                // Supprimer l'élément
+                sectionElement.parentNode.removeChild(sectionElement);
+                console.log("removed !");
+            } else {
+                console.error("L'élément section-agenda-addevent-public n'existe pas.");
+            }
+        }
+        else{
+            sectionElement.style.display = 'block';
+        }
+
+        if(databaseIsReady){
+        getAgenda(user_id)
+            .then((resultat) => {
+            // Transformation de l'objet en chaîne JSON
+
+            agendaData = JSON.stringify(resultat);
+            setupAgenda();
+            })
+            /*.catch((erreur) => {
+            console.error('Une erreur s\'est produite :', erreur);
+            });*/
+        }
+        else{
+        console.error("databaseIsReady est à false");
         }
     }
-    else{
-        sectionElement.style.display = 'block';
-    }
-
-    if(databaseIsReady){
-      getAgenda(user_id)
-        .then((resultat) => {
-          // Transformation de l'objet en chaîne JSON
-
-          agendaData = JSON.stringify(resultat);
-          setupAgenda();
-        })
-        /*.catch((erreur) => {
-          console.error('Une erreur s\'est produite :', erreur);
-        });*/
-    }
-    else{
-      console.error("databaseIsReady est à false");
+    catch(err){
+        console.error("Erreur loadAgenda >>> \n " + err);
+        afficherPopup("Erreur loadAgenda", err.stack);
     }
 }
 
 export async function loadAgendaPublic(){
     var user_id = userProfile.sub;
 
-    if(databaseIsReady){
-      getAgendaPublic(user_id)
-        .then((resultat) => {
-            // Transformation de l'objet en chaîne JSON
-            agendaDataPublic = JSON.stringify(resultat);
-            var tasks = JSON.parse(agendaDataPublic);
-            var taskArray = [];
-            for (var taskKey in tasks) {
-                if (tasks.hasOwnProperty(taskKey)) {
-                    taskArray.push(tasks[taskKey]);
+    try{
+        if(databaseIsReady){
+        getAgendaPublic(user_id)
+            .then((resultat) => {
+                // Transformation de l'objet en chaîne JSON
+                agendaDataPublic = JSON.stringify(resultat);
+                var tasks = JSON.parse(agendaDataPublic);
+                var taskArray = [];
+                for (var taskKey in tasks) {
+                    if (tasks.hasOwnProperty(taskKey)) {
+                        taskArray.push(tasks[taskKey]);
+                    }
                 }
-            }
 
-            try{
-                taskArray.sort(function (a, b) {
-                    var dateA = new Date(a.dateLimite.value);
-                    var dateB = new Date(b.dateLimite.value);
-            
-                    return dateA - dateB;
-                });
-            }
-            catch{
+                try{
+                    taskArray.sort(function (a, b) {
+                        var dateA = new Date(a.dateLimite.value);
+                        var dateB = new Date(b.dateLimite.value);
+                
+                        return dateA - dateB;
+                    });
+                }
+                catch(err){
+                    console.error("Erreur taskArray.sort >>> \n " + err);
+                    afficherPopup("Erreur taskArray.sort", err.stack);
+                }
 
-            }
+                try{
+                    for (var i = 0; i < taskArray.length; i++) {
+                        (function () {
 
-            for (var i = 0; i < taskArray.length; i++) {
-                (function () {
-                    var task = taskArray[i];
+                            try{
+                                var task = taskArray[i];
 
-                    // Ne pas prendre la tâche "defaultTask"
-                    if (task.titre.value === 'defaultTask') {
-                        
-                    }
-                    else{
-                        var titre = task.titre.value;
-                        var isDo = task.isDo.value;
-                        var dateLimite = task.dateLimite.value;
-                        var isPublic = task.isPublic.value;
-                        var toDo = task.toDo.value;
-                        var groupe = task.groupe.value;
+                                // Ne pas prendre la tâche "defaultTask"
+                                if (task.titre.value === 'defaultTask') {
+                                    
+                                }
+                                else{
+                                    var titre = task.titre.value;
+                                    var isDo = task.isDo.value;
+                                    var dateLimite = task.dateLimite.value;
+                                    var isPublic = task.isPublic.value;
+                                    var toDo = task.toDo.value;
+                                    var groupe = task.groupe.value;
 
-                        var user_id = userProfile.sub;
-                        readData("user/" + user_id + "/agenda/" + titre + "/titre").then((resultat) => {
-                            if(resultat != titre){
-                                writeData("user/" + user_id + "/agenda/" + titre + "/isDo", false);
-                                writeData("user/" + user_id + "/agenda/" + titre + "/isPublic", "true");
-                                writeData("user/" + user_id + "/agenda/" + titre + "/toDo", toDo);
-                                writeData("user/" + user_id + "/agenda/" + titre + "/titre", titre);
-                                writeData("user/" + user_id + "/agenda/" + titre + "/groupe", groupe);
-                                writeData("user/" + user_id + "/agenda/" + titre + "/dateLimite", dateLimite);
+                                    var user_id = userProfile.sub;
+                                    readData("user/" + user_id + "/agenda/" + titre + "/titre").then((resultat) => {
+                                        if(resultat != titre){
+                                            writeData("user/" + user_id + "/agenda/" + titre + "/isDo", false);
+                                            writeData("user/" + user_id + "/agenda/" + titre + "/isPublic", "true");
+                                            writeData("user/" + user_id + "/agenda/" + titre + "/toDo", toDo);
+                                            writeData("user/" + user_id + "/agenda/" + titre + "/titre", titre);
+                                            writeData("user/" + user_id + "/agenda/" + titre + "/groupe", groupe);
+                                            writeData("user/" + user_id + "/agenda/" + titre + "/dateLimite", dateLimite);
+                                        }
+                                    });
+                                }
                             }
-                        });
+                            catch(err){
+                                console.error("Erreur loadAgendaPublic/ for/ readAndLoadTask >>> \n " + err);
+                                afficherPopup("Erreur loadAgendaPublic/ for/ readAndLoadTask", err.stack);
+                            }
+                        })();
                     }
-                })();
-            }
-            loadAgenda();
-        })
+                }
+                catch(err){
+                    console.error("Erreur loadAgendaPublic/ for >>> \n " + err);
+                    afficherPopup("Erreur loadAgendaPublic/ for", err.stack);
+                }
+                loadAgenda();
+            })
+        }
+        else{
+        console.error("databaseIsReady est à false");
+        }
     }
-    else{
-      console.error("databaseIsReady est à false");
+    catch(err){
+        console.error("Erreur loadAgendaPublic >>> \n " + err);
+        afficherPopup("Erreur loadAgendaPublic", err.stack);
     }
 }
 
 export async function saveNewTask(){
     event.preventDefault();
 
-    var titre = document.getElementById('titre').value;
-    var description = document.getElementById('description').value;
-    var dateLimite = document.getElementById('dateLimite').value;
-    var horaireLimite = document.getElementById('horaireLimite').value;
+    try{
+        var titre = document.getElementById('titre').value;
+        var description = document.getElementById('description').value;
+        var dateLimite = document.getElementById('dateLimite').value;
+        var horaireLimite = document.getElementById('horaireLimite').value;
 
-    if (titre === "" || description === "" || dateLimite === "" || horaireLimite === "") {
-        alert("Veuillez remplir tous les champs");
-        console.error("Veuillez remplir tous les champs");
-    }
-    else if (/[\.\#\$\[\]]/.test(titre)){
-        alert("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
-        console.error("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
-    }
-    else if(/[\#\$\[\]]/.test(description) || /[\#\$\[\]]/.test(dateLimite) || /[\#\$\[\]]/.test(horaireLimite)){
-        alert("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
-        console.error("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
-    }
-    else{
-        var dateLimite = convertToUnixTimestamp(dateLimite, horaireLimite);
-        var user_id = userProfile.sub;
-    
-        await writeData("user/" + user_id + "/agenda/" + titre + "/isDo", false);
-        await writeData("user/" + user_id + "/agenda/" + titre + "/isPublic", "false");
-        await writeData("user/" + user_id + "/agenda/" + titre + "/toDo", description);
-        await writeData("user/" + user_id + "/agenda/" + titre + "/titre", titre);
-        await writeData("user/" + user_id + "/agenda/" + titre + "/dateLimite", dateLimite);
-        await writeData("user/" + user_id + "/agenda/" + titre + "/dateLimite", dateLimite);
+        if (titre === "" || description === "" || dateLimite === "" || horaireLimite === "") {
+            alert("Veuillez remplir tous les champs");
+            console.error("Veuillez remplir tous les champs");
+        }
+        else if (/[\.\#\$\[\]]/.test(titre)){
+            alert("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
+            console.error("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
+        }
+        else if(/[\#\$\[\]]/.test(description) || /[\#\$\[\]]/.test(dateLimite) || /[\#\$\[\]]/.test(horaireLimite)){
+            alert("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
+            console.error("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
+        }
+        else{
+            var dateLimite = convertToUnixTimestamp(dateLimite, horaireLimite);
+            var user_id = userProfile.sub;
+        
+            await writeData("user/" + user_id + "/agenda/" + titre + "/isDo", false);
+            await writeData("user/" + user_id + "/agenda/" + titre + "/isPublic", "false");
+            await writeData("user/" + user_id + "/agenda/" + titre + "/toDo", description);
+            await writeData("user/" + user_id + "/agenda/" + titre + "/titre", titre);
+            await writeData("user/" + user_id + "/agenda/" + titre + "/dateLimite", dateLimite);
+            await writeData("user/" + user_id + "/agenda/" + titre + "/dateLimite", dateLimite);
 
-        window.location.reload();
+            window.location.reload();
+        }
+    }
+    catch(err){
+        console.error("Erreur saveNewTask >>> \n " + err);
+        afficherPopup("Erreur saveNewTask", err.stack);
     }
 }
 
 function convertToUnixTimestamp(dateString, timeString) {
-    // Concaténer la date et l'heure pour former une chaîne complète
-    var dateTimeString = dateString + ' ' + timeString;
+    try{
+        // Concaténer la date et l'heure pour former une chaîne complète
+        var dateTimeString = dateString + ' ' + timeString;
 
-    // Créer un objet Date à partir de la chaîne
-    var dateTime = new Date(dateTimeString);
+        // Créer un objet Date à partir de la chaîne
+        var dateTime = new Date(dateTimeString);
 
-    // Récupérer le timestamp Unix (en millisecondes) et le convertir en secondes
-    var unixTimestamp = dateTime.getTime() / 1000;
+        // Récupérer le timestamp Unix (en millisecondes) et le convertir en secondes
+        var unixTimestamp = dateTime.getTime() / 1000;
 
-    return unixTimestamp;
+        return unixTimestamp;
+    }
+    catch(err){
+        console.error("Erreur convertToUnixTimestamp >>> \n " + err);
+        afficherPopup("Erreur convertToUnixTimestamp", err.stack);
+    }
 }
 
 export async function saveNewTaskPublic(){
     event.preventDefault();
 
-    var titre = document.getElementById('titre-public').value;
-    var description = document.getElementById('description-public').value;
-    var dateLimite = document.getElementById('dateLimite-public').value;
-    var horaireLimite = document.getElementById('horaireLimite-public').value;
-    var groupeVisee = document.getElementById('groupeVisee-public').value;
+    try{
+        var titre = document.getElementById('titre-public').value;
+        var description = document.getElementById('description-public').value;
+        var dateLimite = document.getElementById('dateLimite-public').value;
+        var horaireLimite = document.getElementById('horaireLimite-public').value;
+        var groupeVisee = document.getElementById('groupeVisee-public').value;
 
-    if (titre === "" || description === "" || dateLimite === "" || horaireLimite === "" || groupeVisee === "") {
-        alert("Veuillez remplir tous les champs");
-        console.error("Veuillez remplir tous les champs");
+        if (titre === "" || description === "" || dateLimite === "" || horaireLimite === "" || groupeVisee === "") {
+            alert("Veuillez remplir tous les champs");
+            console.error("Veuillez remplir tous les champs");
+        }
+        else if (/[\.\#\$\[\]]/.test(titre)){
+            alert("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
+            console.error("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
+        }
+        else if(/[\#\$\[\]]/.test(description) || /[\#\$\[\]]/.test(dateLimite) || /[\#\$\[\]]/.test(horaireLimite)){
+            alert("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
+            console.error("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
+        }
+        else{
+            var dateLimite = convertToUnixTimestamp(dateLimite, horaireLimite);
+            await writeData("agenda/" + titre + "/isDo", "false");
+            await writeData("agenda/" + titre + "/isPublic", "true");
+            await writeData("agenda/" + titre + "/toDo", description);
+            await writeData("agenda/" + titre + "/titre", titre);
+            await writeData("agenda/" + titre + "/dateLimite", dateLimite);
+            await writeData("agenda/" + titre + "/groupe", groupeVisee);
+        
+            window.location.reload();
+        }
     }
-    else if (/[\.\#\$\[\]]/.test(titre)){
-        alert("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
-        console.error("Les titres ne doivent pas contenir '.', '#', '$', '[', ou ']'");
-    }
-    else if(/[\#\$\[\]]/.test(description) || /[\#\$\[\]]/.test(dateLimite) || /[\#\$\[\]]/.test(horaireLimite)){
-        alert("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
-        console.error("Les champs de type TEXTE ne doivent pas contenir '#', '$', '[', ou ']'");
-    }
-    else{
-        var dateLimite = convertToUnixTimestamp(dateLimite, horaireLimite);
-        await writeData("agenda/" + titre + "/isDo", "false");
-        await writeData("agenda/" + titre + "/isPublic", "true");
-        await writeData("agenda/" + titre + "/toDo", description);
-        await writeData("agenda/" + titre + "/titre", titre);
-        await writeData("agenda/" + titre + "/dateLimite", dateLimite);
-        await writeData("agenda/" + titre + "/groupe", groupeVisee);
-    
-        window.location.reload();
+    catch(err){
+        console.error("Erreur saveNewTaskPublic >>> \n " + err);
+        afficherPopup("Erreur saveNewTaskPublic", err.stack);
     }
 }
 
 export function updateTaskIsDo(titre, isDo){
-    console.log(titre + ' is do : ' + isDo);
-    var user_id = userProfile.sub;
-    writeData("user/" + user_id + "/agenda/" + titre + "/isDo", isDo);
-    console.log('value changed !');
-    window.location.reload();
+    try{
+        console.log(titre + ' is do : ' + isDo);
+        var user_id = userProfile.sub;
+        writeData("user/" + user_id + "/agenda/" + titre + "/isDo", isDo);
+        console.log('value changed !');
+        window.location.reload();
+    }
+    catch(err){
+        console.error("Erreur updateTaskIsDo >>> \n " + err);
+        afficherPopup("Erreur updateTaskIsDo", err.stack);
+    }
 }
 
 export function deleteTask(titre){
-    console.log(' try to delete : ' + titre);
-    var user_id = userProfile.sub;
-    deleteData("user/" + user_id + "/agenda/" + titre);
+    try{
+        console.log(' try to delete : ' + titre);
+        var user_id = userProfile.sub;
+        deleteData("user/" + user_id + "/agenda/" + titre);
+    }
+    catch(err){
+        console.error("Erreur deleteTask >>> \n " + err);
+        afficherPopup("Erreur deleteTask", err.stack);
+    }
 }
 
 export function deletePublicTask(titre){
-    console.log(' try to delete : ' + titre);
-    deleteData("agenda/" + titre);
+    try{
+        console.log(' try to delete : ' + titre);
+        deleteData("agenda/" + titre);
+    }
+    catch(err){
+        console.error("Erreur deletePublicTask >>> \n " + err);
+        afficherPopup("Erreur deletePublicTask", err.stack);
+    }
 }
 
 function setupAgenda() {
@@ -510,18 +574,21 @@ function setupAgenda() {
                         }
                     }
                     catch(err){
-                        console.error("Erreur setupAgenda/AjouterLesTâches/ReadTask >>> \n " + err);
+                        console.error("Erreur setupAgenda/ AjouterLesTâches/ ReadTask >>> \n " + err);
+                        afficherPopup("Erreur setupAgenda/ AjouterLesTâches/ ReadTask", err.stack);
                     }
 
                 })();
             }
         }
         catch(err){
-            console.error("Erreur setupAgenda/AjouterLesTâches >>> \n " + err);
+            console.error("Erreur setupAgenda/ AjouterLesTâches >>> \n " + err);
+            afficherPopup("Erreur setupAgenda/ AjouterLesTâches", err.stack);
         }
     }
     catch(err){
         console.error("Erreur setupAgenda >>> \n " + err);
+        afficherPopup("Erreur setupAgenda", err.stack);
     }
 }
 
@@ -548,6 +615,7 @@ function convertirTempsUnixEnString(tempsUnix) {
     }
     catch(err){
         console.error("Erreur convertirTempsUnixEnString >>> \n " + err);
+        afficherPopup("Erreur convertirTempsUnixEnString", err.stack);
     }
   }
 
