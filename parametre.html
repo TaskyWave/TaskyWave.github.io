@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+    <div id="overlay"></div>
     <!--Meta et liens-->
     <head>
         <!-- Titre onglet -->
@@ -40,25 +41,100 @@
                 </div>
             </ul>
         </nav>
-        <h2 id="nom">Chargement</h2>
-        <div class="grid-container">
-            <div class="titre">
-                <p style="font-size: 20px;" id="groupe">...</p><br>
-                <p style="font-size: 20px;" id="lemail">...</p><br>
-            </div>
-            <div class="presentation">
-                <p style="font-size: 20px;" id="idUser">...</p><br>
-                <p style="font-size: 20px;" id="dateInscription">...</p><br>
-            </div>
+        <h2 id="nom">Information sur le compte utilisateur :</h2>
+        <br>
+        <br>
+        <br>
+        <div class="infoUserFormat">
+            <p class="positionInfoUserTitre">Nom :</p>
+            <p class="positionInfoUserContent" style="font-size: 20px;" id="leNickName">...</p><br>
         </div>
+
+        <div class="infoUserFormat">
+            <p class="positionInfoUserTitre">Image :</p>
+            <img id="laPicture" src="Assets/Img/Assets/Boutons/account.png" alt="" width="40" height="40"><br>
+        </div>
+
+        <div class="infoUserFormat">
+            <p class="positionInfoUserTitre">Groupe :</p>
+            <p style="font-size: 20px;" id="leGroupe">...</p><br>
+        </div>
+
+        <div class="infoUserFormat">
+            <p class="positionInfoUserTitre">E-mail :</p>
+            <p style="font-size: 20px;" id="leMail">...</p><br>
+        </div>
+
+        <div class="infoUserFormat">
+            <p class="positionInfoUserTitre">E-mail validé :</p>
+            <p style="font-size: 20px;" id="verifEmailCheck">...</p><br>
+        </div>
+        
+        <div class="infoUserFormat">
+            <p class="positionInfoUserTitre">ID :</p>
+            <p style="font-size: 20px;" id="idUser">...</p><br>
+        </div>
+
+        <div class="infoUserFormat">
+            <p class="positionInfoUserTitre">Date d'inscription :</p>
+            <p style="font-size: 20px;" id="laDateInscription">...</p><br>
+        </div>
+
+        <div class="infoUserFormat">
+            <p class="positionInfoUserTitre">Rôle principal :</p>
+            <p style="font-size: 20px;" id="leRole">...</p><br>
+        </div>
+
     </header>
     <body>
-        <section class="compte">
-                
-        </section>
         <section class="description">
+            <h3>Modification des données :</h3>
+
+            <br><br><br>
             
-            <h3>Aide et support</h3>
+            <div class="infoUserFormat">
+                <h4>Nom :</h4>
+                <form class="positionEditInfo">
+                    <input type="text" placeholder="Nouveau nom ...">
+                    <button id="" class="button" >Changer</button>
+                </form>
+            </div>
+
+            <br><br>
+
+            <div class="infoUserFormat">
+                <h4>Image :</h4>
+                <form class="positionEditInfo">
+                    <input type="image" alt="Charger">
+                </form>
+            </div>
+
+            <br><br>
+
+            <div class="infoUserFormat">
+                <h4>E-mail :</h4>
+                <form class="positionEditInfo">
+                    <input type="text" placeholder="Nouvelle E-mail ...">
+                    <button id="" class="button" >Changer</button>
+                </form>
+            </div>
+
+            <br><br>
+
+            <div class="infoUserFormat">
+                <h4>Groupe :</h4>
+                <form class="positionEditInfo">
+                    <select id="groupeVisee-public" name="groupe" required>
+                        <option value="D1">D1</option>
+                        <option value="D2">D2</option>
+                        <!-- Ajoutez autant d'options que nécessaire -->
+                    </select>
+                    <button id="" class="button" >Changer</button>
+                </form>
+            </div>
+
+            <br><br><br>
+
             <a href="aide.html"><p>Page d'aide</p></a>
             <a href="mailto:clementdionnescolaire@gmail.com"><p>Contact de support</p></a>
             <br>
@@ -73,7 +149,12 @@
                 <p id="messagePopup"></p>
             </div>
         </div>
-        <br><br>
+        <br>
+        <br>
+        <script src="https://cdn.auth0.com/js/auth0-spa-js/1.2/auth0-spa-js.production.js"></script>
+        <script type="module" src="Assets/Js/settings/settings.js"></script>
+        <script type="module" src="Assets/Js/settings/settingsAuth.js"></script>
+        <script type="module" src="Assets/Js/settings/settingsPopUp.js"></script>
     </body>
     <!-- pied de page -->
     <footer>

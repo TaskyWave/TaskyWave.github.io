@@ -475,6 +475,30 @@ input:hover, .button:hover, select:hover{
 
 /*#endregion*/
 
+/*#region Parametres*/
+
+.infoUserFormat{
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.infoUserFormat .positionInfoUserTitre{
+    grid-column: 1;
+    grid-row: 1;
+    font-weight: 700;
+    color: #808080;
+}
+
+.infoUserFormat .positionInfoUserContent{
+    grid-column: 1;
+    grid-row: 2;
+}
+
+/*#endregion*/
+
 /*#region Navigation (header)*/
 
 .accountInfo img, .accountInfo p{
