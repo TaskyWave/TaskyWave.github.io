@@ -54,6 +54,9 @@ const updateUI = async () => {
       document.getElementById("btn-logout").style.display = 'block';
       document.getElementById("btn-account").style.display = 'block';
       document.getElementById("btn-login").style.display = 'none';
+
+      document.getElementById("accountPicture").src = userProfile.picture;
+      document.getElementById("accountNickName").textContent = "compte : " + userProfile.nickname;
     }
     else{
       document.getElementById("btn-logout").style.display = 'none';

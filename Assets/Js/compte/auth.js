@@ -16,6 +16,7 @@ window.onload = async () => {
     console.log(databaseIsReady);
     await loadAgendaPublic();
     setupEDT();
+    console.log(userProfile)
 }
 
 const configureClient = async () => {
@@ -44,6 +45,9 @@ const updateUI = async () => {
   if (isAuthenticated) {
     document.getElementById("btn-logout").style.display = 'block';
     document.getElementById("btn-account").style.display = 'block';
+
+    document.getElementById("accountPicture").src = userProfile.picture;
+    document.getElementById("accountNickName").textContent = "compte : " + userProfile.nickname;
   }
   else{
     window.location.href = 'index.html';

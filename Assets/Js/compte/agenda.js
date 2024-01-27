@@ -344,6 +344,20 @@ function setupAgenda() {
                             // Ajoutez le bouton de suppression à l'élément de tâche
                             taskElement.appendChild(deleteButtonContener);
 
+                            // Ajouter l'élément image pour indiquer la visibilité de la tâche
+                            var visibilityImage = document.createElement("img");
+                            visibilityImage.width = 30; // Définir la largeur de l'image
+                            visibilityImage.height = 30; // Définir la hauteur de l'image
+                            visibilityImage.classList.add('visibility-icon');
+
+                            visibilityImage.src = '/Assets/Img/Assets/TaskList/public.png';
+
+                            taskElement.appendChild(visibilityImage);
+
+                            var groupeVisee = document.createElement("p");
+                            groupeVisee.textContent = "gr : " + task.groupe.value;
+                            taskElement.appendChild(groupeVisee);
+
                             var isDoCheckbox = document.createElement("input");
                             isDoCheckbox.type = "checkbox";
                             isDoCheckbox.checked = task.isDo.value;
@@ -422,6 +436,16 @@ function setupAgenda() {
                 
                                 // Ajoutez le bouton de suppression à l'élément de tâche
                                 taskElement.appendChild(deleteButtonContener);
+
+                                // Ajouter l'élément image pour indiquer la visibilité de la tâche
+                                var visibilityImage = document.createElement("img");
+                                visibilityImage.width = 30; // Définir la largeur de l'image
+                                visibilityImage.height = 30; // Définir la hauteur de l'image
+                                visibilityImage.classList.add('visibility-icon');
+
+                                visibilityImage.src = '/Assets/Img/Assets/TaskList/public.png';
+
+                                taskElement.appendChild(visibilityImage);
 
                                 var isDoCheckbox = document.createElement("input");
                                 isDoCheckbox.type = "checkbox";

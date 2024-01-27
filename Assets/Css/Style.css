@@ -453,6 +453,26 @@ input:hover, .button:hover, select:hover{
 /*#endregion*/
 
 /*#region Navigation (header)*/
+
+.accountInfo img, .accountInfo p{
+    transition: 0.2s;
+    border-radius: 14px;
+    opacity: 1;
+    font-size: 14px;
+    
+}
+
+.accountInfo img:hover, .accountInfo p:hover{
+    transition: 0.2s;
+    opacity: 0.75;
+}
+
+.accountInfo{
+    display: block;
+    position: absolute;
+    float: left;
+}
+
 .navbar {
     /*background-color: rgb(20,20,20);*/
     background-color: #1a1a1a;
