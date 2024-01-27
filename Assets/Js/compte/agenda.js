@@ -349,14 +349,14 @@ function setupAgenda() {
                             visibilityImage.width = 30; // Définir la largeur de l'image
                             visibilityImage.height = 30; // Définir la hauteur de l'image
                             visibilityImage.classList.add('visibility-icon');
-
                             visibilityImage.src = '/Assets/Img/Assets/TaskList/public.png';
-
+                            visibilityImage.classList.add('imageEstPublic');
                             taskElement.appendChild(visibilityImage);
 
                             var groupeVisee = document.createElement("p");
                             groupeVisee.textContent = "gr : " + task.groupe.value;
                             taskElement.appendChild(groupeVisee);
+                            groupeVisee.classList.add('groupeVisee');
 
                             var isDoCheckbox = document.createElement("input");
                             isDoCheckbox.type = "checkbox";
@@ -442,9 +442,8 @@ function setupAgenda() {
                                 visibilityImage.width = 30; // Définir la largeur de l'image
                                 visibilityImage.height = 30; // Définir la hauteur de l'image
                                 visibilityImage.classList.add('visibility-icon');
-
+                                visibilityImage.classList.add('imageEstPublic');
                                 visibilityImage.src = '/Assets/Img/Assets/TaskList/public.png';
-
                                 taskElement.appendChild(visibilityImage);
 
                                 var isDoCheckbox = document.createElement("input");
