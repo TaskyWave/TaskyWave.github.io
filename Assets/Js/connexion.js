@@ -1,4 +1,3 @@
-
 // var global
 let auth0 = null
 var isAuthenticated = null;
@@ -18,8 +17,8 @@ const configureClient = async () => {
     auth0 = await createAuth0Client({
       domain: "dev-k2kmewd5n7y1vv4c.us.auth0.com",
       client_id: "ViENR2c3HWIW5eof4jwpBW2n81DEqRVz",
-      cacheLocation: 'localstorage',
-      useRefreshTokens: true
+      useRefreshTokens: true,
+      cacheLocation: 'localstorage'
     })
   }
   catch(err){
@@ -34,7 +33,8 @@ const processLoginState = async () => {
     const query = window.location.search
     if (query.includes("code=") && query.includes("state=")) {
       // Process the login state
-      await auth0.handleRedirectCallback()
+      // await auth0.handleRedirectCallback()
+      await auth0.getTokenSilently();
       // Use replaceState to redirect the user away and remove the querystring parameters
       window.history.replaceState({}, document.title, window.location.pathname)
     }

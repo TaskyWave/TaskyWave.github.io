@@ -29,7 +29,8 @@ const processLoginState = async () => {
   const query = window.location.search
   if (query.includes("code=") && query.includes("state=")) {
     // Process the login state
-    await auth0.handleRedirectCallback()
+      // await auth0.handleRedirectCallback()
+      await auth0.getTokenSilently();
     // Use replaceState to redirect the user away and remove the querystring parameters
     window.history.replaceState({}, document.title, window.location.pathname)
   }
