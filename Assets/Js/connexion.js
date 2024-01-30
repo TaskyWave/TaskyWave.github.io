@@ -32,7 +32,7 @@ const processLoginState = async () => {
   try{
     const query = window.location.search
     if (isSafari()) {
-      await auth0.getTokenSilently();
+      await auth0.handleRedirectCallback()
     } else {
       if (query.includes("code=") && query.includes("state=")) {
         // Process the login state
