@@ -31,6 +31,7 @@ catch(err){
 }
 
 export async function setupEDT(){
+    var listeEvenementsDiv = null;
 
     try{
         var user_id = userProfile.sub;
@@ -47,7 +48,7 @@ export async function setupEDT(){
 
         console.log(dateDebut);
         
-        const listeEvenementsDiv = document.getElementById('listeEvenements');
+        listeEvenementsDiv = document.getElementById('listeEvenements');
 
     }
     catch(err){
