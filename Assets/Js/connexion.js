@@ -44,6 +44,12 @@ const processLoginState = async () => {
   }
 }
 
+// Fonction pour vérifier si le navigateur est Safari
+function isSafari() {
+  // Vérifie si l'agent utilisateur contient "Safari"
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+}
+
 // update de la page index.html
 const updateUI = async () => {
   try{
@@ -92,4 +98,11 @@ const logout = () => {
   catch(err){
     console.error("Erreur logout >>> \n " + err);
   }
+}
+
+// Exemple d'utilisation
+if (isSafari()) {
+  console.log("Vous utilisez Safari.");
+} else {
+  console.log("Vous n'utilisez pas Safari.");
 }
