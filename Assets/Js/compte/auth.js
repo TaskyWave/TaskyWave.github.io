@@ -28,16 +28,32 @@ const configureClient = async () => {
   })
 }
 
+// check le login du client auth0
 const processLoginState = async () => {
   // Check code and state parameters
-  const query = window.location.search
-  if (query.includes("code=") && query.includes("state=")) {
-    // Process the login state
-      // await auth0.handleRedirectCallback()
-      await auth0.getTokenSilently();
-    // Use replaceState to redirect the user away and remove the querystring parameters
-    window.history.replaceState({}, document.title, window.location.pathname)
+  try{
+    const query = window.location.search
+    if (isSafari()) {
+      await auth0.handleRedirectCallback()
+    } else {
+      if (query.includes("code=") && query.includes("state=")) {
+        // Process the login state
+        // await auth0.handleRedirectCallback()
+        await auth0.getTokenSilently();
+        // Use replaceState to redirect the user away and remove the querystring parameters
+        window.history.replaceState({}, document.title, window.location.pathname)
+      }
+    }
   }
+  catch(err){
+    console.error("Erreur processLoginState >>> \n " + err);
+  }
+}
+
+// Fonction pour vérifier si le navigateur est Safari
+function isSafari() {
+  // Vérifie si l'agent utilisateur contient "Safari"
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 }
 
 const updateUI = async () => {
